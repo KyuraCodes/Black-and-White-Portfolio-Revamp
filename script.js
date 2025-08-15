@@ -224,7 +224,7 @@ class AdvancedPortfolio {
     const loadTrack = (index) => {
       const track = this.tracks[index];
       if (!track) return;
-      this.audioPlayer.src = track.src;       // kamu ganti file mp3 sesuai koleksi kamu
+      this.audioPlayer.src = track.src;      
       this.songTitleEl.textContent = track.title;
       this.songArtistEl.textContent = track.artist;
       this.audioPlayer.load();
@@ -501,3 +501,4 @@ style.textContent = `
   @media (max-width: 768px) { .nav-menu { display: none; } }
 `;
 document.head.appendChild(style);
+
