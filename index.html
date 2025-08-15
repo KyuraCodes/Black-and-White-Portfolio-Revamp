@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Y4ku - Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>KỲUR - Portfolio</title>
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
     <div id="particles-container"></div>
-    
+
+    <!-- Loading -->
     <div id="loading-screen">
         <div class="loading-content">
-            <div class="loading-logo">Y4KU</div>
+            <div class="loading-logo">KỲUR</div>
             <div class="loading-bar">
                 <div class="loading-progress"></div>
             </div>
@@ -22,60 +23,85 @@
         </div>
     </div>
 
+    <!-- Secret overlay (Easter Egg) -->
+    <div id="secret-overlay" aria-hidden="true">
+        <div class="secret-content">
+            <h2>✨ Secret Unlocked!</h2>
+            <p>You found the hidden room! Keep creating, keep exploring.</p>
+            <button id="close-secret" aria-label="Close secret">Close</button>
+        </div>
+    </div>
+
+    <!-- Navbar -->
     <nav class="navbar">
-        <div class="nav-brand">Y4KU</div>
+        <div class="nav-brand">KỲUR</div>
         <div class="nav-menu">
             <a href="#home" class="nav-link active">Home</a>
             <a href="#about" class="nav-link">About</a>
+            <a href="#projects" class="nav-link">Projects</a>
             <a href="#music" class="nav-link">Music</a>
+            <a href="#timeline" class="nav-link">Timeline</a>
             <a href="#contact" class="nav-link">Contact</a>
         </div>
-        <div class="nav-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
+
+        <!-- Theme toggle -->
+        <div class="theme-toggle" title="Toggle theme" aria-label="Toggle theme" id="themeToggle">
+            <span class="theme-icon" id="themeIcon">🌙</span>
+        </div>
+
+        <div class="nav-toggle" aria-label="Open Menu" role="button" tabindex="0">
+            <span></span><span></span><span></span>
         </div>
     </nav>
 
     <div class="container">
-        <section id="home" class="hero-section">
+        <!-- Hero -->
+        <section id="home" class="hero-section" data-parallax="0.2">
             <div class="hero-content">
-                <div class="profile-container">
+                <div class="profile-container" data-parallax="0.1">
                     <div class="profile-ring">
                         <div class="profile-image-wrapper">
-                            <img src="profile.jpg" alt="Y4ku Profile" class="profile-image">
+                            <img src="profile.jpg" alt="Kyur Profile" class="profile-image"/>
                             <div class="profile-overlay"></div>
                         </div>
                     </div>
                 </div>
+
                 <div class="hero-text">
                     <h1 class="hero-title">
-                        <span class="title-line">SIMPLE</span>
+                        <span class="title-line">KỲUR</span>
                         <span class="title-line">PORTFOLIO</span>
                     </h1>
-                    <p class="hero-subtitle">Digital Creator • Anime Lovers • Writter</p>
+
+                    <!-- Typing animation -->
+                    <p class="hero-subtitle">
+                        <span id="typed-text" aria-live="polite"></span><span class="cursor">|</span>
+                    </p>
+
                     <div class="hero-stats">
                         <div class="stat-item">
-                            <span class="stat-number" data-target="1">0</span>
+                            <span class="stat-number" data-target="5">0</span>
                             <span class="stat-label">Projects</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number" data-target="1">0</span>
+                            <span class="stat-number" data-target="3">0</span>
                             <span class="stat-label">Tracks</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number" data-target="100">0</span>
+                            <span class="stat-number" data-target="140">0</span>
                             <span class="stat-label">Hours</span>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="scroll-indicator">
                 <div class="scroll-arrow"></div>
                 <span>Scroll to explore</span>
             </div>
         </section>
 
+        <!-- About -->
         <section id="about" class="about-section">
             <div class="section-header">
                 <h2 class="section-title">About Me</h2>
@@ -83,37 +109,118 @@
             </div>
             <div class="about-content">
                 <div class="about-text">
-                    <p class="about-intro">Welcome to my digital universe, where creativity knows no boundaries and imagination becomes reality.</p>
-                    <p>I am a digital creator who combines the worlds of gaming, coding, and webnovel writing into one creative universe. For me, technology is not just a tool, but a canvas; writing is not just words, but a living world; and games are not just entertainment, but a limitless source of inspiration. My journey started with simple curiosity—how code can bring ideas to life, how games can shape stories, and how written stories can touch the souls of others.</p>
+                    <p class="about-intro">Welcome to my digital universe — a space where gaming passion, coding expertise, and server innovation converge into one vision.</p>
+                    <p>I specialize in building interactive experiences, developing Minecraft servers, and delivering reliable hosting solutions for communities of all sizes. Over the years, I’ve worked on various projects — from creating custom plugins and optimizing server performance, to managing thriving online communities and providing professional hosting services.</p>
+                    <p>My journey began with simple curiosity about how technology could bring ideas to life. That curiosity evolved into a drive to create, improve, and connect people through digital platforms. For me, coding is more than just lines of text; it’s a language for building worlds. Gaming is more than entertainment; it’s a source of creativity and collaboration. And server development is more than infrastructure; it’s about crafting seamless, engaging experiences for players.</p>
+                    <p>Today, I continue to merge creativity with technology, leading projects like BingungSMP and OrbitSMP, while supporting clients through my role at HeppyCloud. In the past, I also founded and managed Kyurastore Hosting (2022), gaining valuable experience in business operations and customer service. My mission is simple: to turn concepts into functional, memorable realities that leave a lasting impact on those who experience them.</p>
                 </div>
+
                 <div class="skills-container">
                     <div class="skill-item">
-                        <div class="skill-icon">✍️</div>
-                        <h3>Writer</h3>
-                        <p>Writing stories with long narratives and the best world building</p>
+                        <div class="skill-icon">🛠</div>
+                        <h3>Minecraft Development</h3>
+                        <p>Create custom plugins, skripts, and servers for Minecraft.</p>
                     </div>
                     <div class="skill-item">
                         <div class="skill-icon">🎮</div>
-                        <h3>Game</h3>
-                        <p>Adaptation game skills</p>
+                        <h3>Gaming & Game Development</h3>
+                        <p>Playing games, understanding gameplay mechanics, and developing gaming experience.</p>
                     </div>
                     <div class="skill-item">
                         <div class="skill-icon">💻</div>
                         <h3>Coding</h3>
-                        <p>Building interactive experiences through code</p>
+                        <p>Create various projects through programming for web, tools, and applications.</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Projects -->
+        <section id="projects" class="projects-section">
+            <div class="section-header">
+                <h2 class="section-title">Projects</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="projects-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="coding">Coding</button>
+                <button class="filter-btn" data-filter="Minecraft">Minecraft</button>
+                <button class="filter-btn" data-filter="Community Work">Community Work</button>
+            </div>
+
+            <div class="projects-grid">
+                <!-- 6 dummy projects -->
+                <article class="project-card" data-category="Community Work">
+                <div class="project-thumb" style="background-image: url('https://files.cloudkuimages.guru/images/UJ67Vh1b.jpg');"></div>
+                    <div class="project-body">
+                        <h3 class="project-title">HEPPY CLOUD</h3>
+                        <p class="project-desc">Provided dedicated customer support at HeppyCloud Hosting, assisting clients with server setup, troubleshooting, performance optimization, and plugin configuration, ensuring smooth operations and a positive hosting experience for all users.</p>
+                        <div class="project-tags"><span>#comunity</span><span>#hosting</span><span>#support</span><span>#hosting-berkualitas</span></div>
+                        <a href="https://heppyhost.my.id/" class="project-btn" target="_blank" rel="noopener">Visit HeppyCloud</a>
+                    </div>
+                </article>
+
+                <article class="project-card" data-category="Minecraft">
+                <div class="project-thumb" style="background-image: url('https://files.cloudkuimages.guru/images/6TEqFaC4.jpg');"></div>
+                    <div class="project-body">
+                        <h3 class="project-title">BINGUNG SMP</h3>
+                        <p class="project-desc">Led the development and management of Bingung SMP, creating custom plugins, hosting community events, and fostering a friendly and active Minecraft player base.</p>
+                        <div class="project-tags"><span>#minecraft</span><span><div>#owner</div></span><span>#comunity</span><span>#game</span></div>
+                    </div>
+                </article>
+
+                <article class="project-card" data-category="Minecraft">
+                <div class="project-thumb" style="background-image: url('https://files.cloudkuimages.guru/images/O76YbTN5.jpg');"></div>
+                    <div class="project-body">
+                        <h3 class="project-title">ORBIT SMP</h3>
+                        <p class="project-desc">Developed and maintained Orbit SMP, creating custom Minecraft plugins, optimizing server performance, hosting events, and fostering a friendly community for players to collaborate, build, and enjoy.</p>
+                        <div class="project-tags"><span>#development</span><span>#minecraft</span><span>#game</span><span>comunity</span></div>
+                    </div>
+                </article>
+
+                <article class="project-card" data-category="coding">
+                <div class="project-thumb" style="background-image: url('https://files.cloudkuimages.guru/images/coERgMbe.jpg');"></div>
+                    <div class="project-body">
+                        <h3 class="project-title">QOUTES GENERATOR</h3>
+                        <p class="project-desc">Crafted an interactive web quotes generator that blends sleek design with engaging functionality, delivering inspiring messages in real time with a polished, user-friendly interface.</p>
+                        <div class="project-tags"><span>#coding</span><span>#javascript</span><span>web</span><span>quotes</span></div>
+                        <a href="https://comingsoon.com" class="project-btn" target="_blank" rel="noopener">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" data-category="coding">
+                <div class="project-thumb" style="background-image: url('https://files.cloudkuimages.guru/images/IJ3R0imz.jpg');"></div>
+                    <div class="project-body">
+                        <h3 class="project-title">TO-DO LIST</h3>
+                        <p class="project-desc">Designed a sleek and intuitive to-do list web app, empowering users to organize tasks, boost productivity, and stay focused with a clean, distraction-free interface.</p>
+                        <div class="project-tags"><span>#productivity</span><span>#web</span><span>#coding</span></div>
+                        <a href="https://comingsoon.com" class="project-btn" target="_blank" rel="noopener">View Project</a>
+                    </div>
+                </article>
+
+                <article class="project-card" data-category="coding">
+                    <div class="project-thumb"></div>
+                    <div class="project-body">
+                        <h3 class="project-title">project 6</h3>
+                        <p class="project-desc">Ga ada wak</p>
+                        <div class="project-tags"><span>#game</span><span>#leveldesign</span></div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Music -->
         <section id="music" class="music-section">
             <div class="section-header">
                 <h2 class="section-title">Featured Track</h2>
                 <div class="section-line"></div>
             </div>
+
             <div class="music-player-container">
                 <div class="music-player">
                     <div class="player-background"></div>
+
                     <div class="music-visualizer">
                         <div class="visualizer-bar"></div>
                         <div class="visualizer-bar"></div>
@@ -124,18 +231,21 @@
                         <div class="visualizer-bar"></div>
                         <div class="visualizer-bar"></div>
                     </div>
+
                     <div class="music-info">
-                        <h3 class="song-title">Love for You</h3>
-                        <p class="artist">loveli lori</p>
+                        <h3 class="song-title" id="songTitle">Love for You</h3>
+                        <p class="artist" id="songArtist">loveli lori</p>
                     </div>
+
                     <div class="player-controls">
-                        <button class="control-btn prev-btn">⏮</button>
-                        <button class="control-btn play-btn" id="playBtn">
+                        <button class="control-btn prev-btn" id="prevBtn" aria-label="Previous">⏮</button>
+                        <button class="control-btn play-btn" id="playBtn" aria-label="Play/Pause">
                             <span class="play-icon">▶</span>
-                            <span class="pause-icon" style="display: none;">⏸</span>
+                            <span class="pause-icon hidden">⏸</span>
                         </button>
-                        <button class="control-btn next-btn">⏭</button>
+                        <button class="control-btn next-btn" id="nextBtn" aria-label="Next">⏭</button>
                     </div>
+
                     <div class="progress-section">
                         <div class="progress-container" id="progressContainer">
                             <div class="progress-bar" id="progressBar"></div>
@@ -143,23 +253,81 @@
                         </div>
                         <div class="time-display">
                             <span id="currentTime">0:00</span>
-                            <span id="duration">2:50</span>
+                            <span id="duration">0:00</span>
                         </div>
                     </div>
+
                     <div class="volume-section">
                         <span class="volume-icon">🔊</span>
                         <div class="volume-slider">
-                            <input type="range" id="volumeSlider" min="0" max="100" value="70">
+                            <input type="range" id="volumeSlider" min="0" max="100" value="70" aria-label="Volume"/>
                         </div>
                     </div>
                 </div>
-                <audio id="audioPlayer" preload="metadata">
-                    <source src="song.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
+
+                <!-- JS akan set source dari playlist -->
+                <audio id="audioPlayer" preload="none">
+                    <!-- src set via JS -->
                 </audio>
             </div>
         </section>
 
+        <!-- Timeline -->
+<section id="timeline" class="timeline-section">
+    <div class="section-header">
+        <h2 class="section-title">Journey</h2>
+        <div class="section-line"></div>
+    </div>
+
+            <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <h3>First Script</h3>
+                <p>Created my first automation script to speed up daily tasks.</p>
+                <span class="timeline-meta">2019</span>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <h3>Launched Kyuracloud Hosting</h3>
+                <p>Opened my own hosting store, Kyurastore, providing affordable and reliable server hosting services.</p>
+                <span class="timeline-meta">2021-2022</span>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <h3>Owner of BingungSMP</h3>
+                <p>Founded and managed BingungSMP Minecraft server community.</p>
+                <span class="timeline-meta">2023 – 2025</span>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <h3>Customer Service at HeppyCloud</h3>
+                <p>Providing customer support and assisting clients with hosting services.</p>
+                <span class="timeline-meta">2024 – Present</span>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+                <h3>Developer at OrbitSMP</h3>
+                <p>Developing plugins and managing server features for OrbitSMP Minecraft server.</p>
+                <span class="timeline-meta">2025 – Present</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Contact (tanpa form langsung, sesuai permintaan) -->
         <section id="contact" class="contact-section">
             <div class="section-header">
                 <h2 class="section-title">Connect With Me</h2>
@@ -170,15 +338,15 @@
                     <p>Ready to collaborate on something amazing? Let's create something extraordinary together.</p>
                 </div>
                 <div class="social-grid">
-                    <a href="https://wa.me/6281297662535" target="_blank" class="social-card whatsapp">
-                        <div class="social-icon">📱</div>
+                    <a href="https://www.instagram.com/ammarhamshar.k/" target="_blank" rel="noopener" class="social-card instagram">
+                        <div class="social-icon">📷</div>
                         <div class="social-info">
-                            <h3>WhatsApp</h3>
-                            <p>Direct messaging</p>
+                            <h3>Instagram</h3>
+                            <p>Follow for updates</p>
                         </div>
                         <div class="social-arrow">→</div>
                     </a>
-                    <a href="https://github.com/kuray4ku" target="_blank" class="social-card github">
+                    <a href="https://github.com/KyuraCodes" target="_blank" rel="noopener" class="social-card github">
                         <div class="social-icon">🐙</div>
                         <div class="social-info">
                             <h3>GitHub</h3>
@@ -186,7 +354,7 @@
                         </div>
                         <div class="social-arrow">→</div>
                     </a>
-                    <a href="https://www.facebook.com/profile.php?id=61579377383768" target="_blank" class="social-card facebook">
+                    <a href="https://www.facebook.com/profile.php?id=61572609465937" target="_blank" rel="noopener" class="social-card facebook">
                         <div class="social-icon">📘</div>
                         <div class="social-info">
                             <h3>Facebook</h3>
@@ -194,7 +362,7 @@
                         </div>
                         <div class="social-arrow">→</div>
                     </a>
-                    <a href="https://discord.gg/gmfybvn5" target="_blank" class="social-card discord">
+                    <a href="https://discord.gg/RXqdYdQP" target="_blank" rel="noopener" class="social-card discord">
                         <div class="social-icon">🎮</div>
                         <div class="social-info">
                             <h3>Discord</h3>
@@ -202,15 +370,32 @@
                         </div>
                         <div class="social-arrow">→</div>
                     </a>
+                    <a href="https://www.tiktok.com/@kyuraalwaysnt" target="_blank" rel="noopener" class="social-card tiktok">
+                        <div class="social-icon"> 📱</div>
+                        <div class="social-info">
+                            <h3>Tiktok</h3>
+                            <p>Video content</p>
+                        </div>
+                        <div class="social-arrow">→</div>
+                    </a>
+                    <a href="https://myanimelist.net/profile/KyuraaChann" target="_blank" rel="noopener" class="social-card mal">
+                        <div class="social-icon"> 📺</div>
+                        <div class="social-info">
+                            <h3>Myanimelist</h3>
+                            <p>Anime tracker</p>
+                        </div>
+                        <div class="social-arrow">→</div>
+                    </a>
                 </div>
             </div>
         </section>
 
+        <!-- Footer -->
         <footer class="footer">
             <div class="footer-content">
-                <div class="footer-brand">Y4KU</div>
+                <div class="footer-brand">KỲUR</div>
                 <div class="footer-text">
-                    <p>&copy; 2025 Y4ku. Crafted with passion and creativity.</p>
+                    <p>&copy; 2025 KỲUR. Crafted with passion and creativity.</p>
                     <p>All rights reserved. Made with ❤️</p>
                 </div>
             </div>
@@ -220,4 +405,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
