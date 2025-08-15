@@ -20,4 +20,4 @@ Check out the live portfolio here: [Visit Site](https://kyuraa.my.id)
 
 1. Clone the repository:  
    ```bash
-   git clone https://github.com/kyuraa/Black-and-White-Portfolio-Revamp.git
+   git clone https://github.com/KyuraCodes/Black-and-White-Portfolio-Revamp
