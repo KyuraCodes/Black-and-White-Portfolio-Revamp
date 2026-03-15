@@ -1,654 +1,882 @@
-class AdvancedPortfolio {
-  constructor() {
-    this.init();
-    this.setupEventListeners();
-    this.createParticles();
-    this.setupMusicPlayer(); // base player
-    this.setupPlaylist(); // playlist + prev/next
-    this.setupScrollAnimations();
-    this.setupCustomCursor();
-    this.setupLoadingScreen();
-    this.setupThemeToggle(); // dark/light
-    this.setupTyping(); // typing animation
-    this.setupProjectsFilter(); // filter projects
-    this.setupParallax(); // parallax
-    this.setupEasterEgg(); // konami code
-  }
+'use strict';
 
-  init() {
-    this.isPlaying = false;
-    // Music
-    this.audioPlayer = document.getElementById("audioPlayer");
-    this.playBtn = document.getElementById("playBtn");
-    this.prevBtn = document.getElementById("prevBtn");
-    this.nextBtn = document.getElementById("nextBtn");
-    this.progressBar = document.getElementById("progressBar");
-    this.progressContainer = document.getElementById("progressContainer");
-    this.progressHandle = document.getElementById("progressHandle");
-    this.currentTimeDisplay = document.getElementById("currentTime");
-    this.durationDisplay = document.getElementById("duration");
-    this.volumeSlider = document.getElementById("volumeSlider");
-    this.visualizerBars = document.querySelectorAll(".visualizer-bar");
-    this.songTitleEl = document.getElementById("songTitle");
-    this.songArtistEl = document.getElementById("songArtist");
+/* ──────────────────────────────────────────────────
+   MODULE: LOADER
+   Cinematic loading sequence with progress counter,
+   rotating messages, and wipe-out exit transition
+────────────────────────────────────────────────── */
+const Loader = (() => {
+  const loader   = document.getElementById('loader');
+  const fill     = document.getElementById('loaderFill');
+  const pctEl    = document.getElementById('loaderPct');
+  const subEl    = document.getElementById('loaderSub');
 
-    // Cursor
-    this.cursor = { x: 0, y: 0 };
-    this.cursorElement = null;
+  const messages = [
+    'Initializing...',
+    'Loading modules...',
+    'Compiling styles...',
+    'Mounting components...',
+    'Almost ready...',
+  ];
 
-    // Scroll
-    this.lastScrollY = 0;
+  let progress = 0;
+  let msgIndex = 0;
 
-    // Typing
-    this.typedTextEl = document.getElementById("typed-text");
-    this.typingPhrases = [
-      "Digital Creator",
-      "Anime Lover",
-      "Minecraft Plugin Dev",
-      "Frontend Coder",
-      "Gaming Enthusiast",
-      "Passionate Coder",
-    ];
-    this.typeIndex = 0;
-    this.charIndex = 0;
-    this.isDeleting = false;
+  function init() {
+    // Animate progress bar from 0 → 100 over ~1.8s
+    const interval = setInterval(() => {
+      // Ease: fast at first, slow near end
+      const step = progress < 70 ? 3.5 : progress < 90 ? 1.2 : 0.5;
+      progress = Math.min(progress + step, 100);
 
-    // Theme
-    this.themeToggle = document.getElementById("themeToggle");
-    this.themeIcon = document.getElementById("themeIcon");
+      if (fill)  fill.style.width = `${progress}%`;
+      if (pctEl) pctEl.textContent = `${Math.floor(progress)}%`;
 
-    // Playlist (ganti file sendiri sesuai kebutuhan)
-    this.tracks = [
-      { title: "Love for You", artist: "loveli lori", src: "song.mp3" },
-      {
-        title: "Tell Me Why I'm Waiting",
-        artist: "timmies, Shiloh Dynasty",
-        src: "song2.mp3",
-      },
-      { title: "Kisah Sebuah Permata", artist: "Fiq7", src: "song3.mp3" },
-    ];
-    this.currentTrack = 0;
-
-    // Easter Egg
-    this.konamiSeq = [
-      "ArrowUp",
-      "ArrowUp",
-      "ArrowDown",
-      "ArrowDown",
-      "ArrowLeft",
-      "ArrowRight",
-      "ArrowLeft",
-      "ArrowRight",
-      "KeyB",
-      "KeyA",
-    ];
-    this.konamiBuffer = [];
-    this.secretOverlay = document.getElementById("secret-overlay");
-    this.closeSecretBtn = document.getElementById("close-secret");
-
-    this.animationId = null;
-  }
-
-  setupEventListeners() {
-    // Smooth nav
-    document.querySelectorAll(".nav-link").forEach((link) => {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute("href"));
-        if (target) {
-          this.smoothScrollTo(target);
-          this.setActiveNavLink(link);
-        }
-      });
-    });
-
-    const navToggle = document.querySelector(".nav-toggle");
-    const navMenu = document.querySelector(".nav-menu");
-    if (navToggle) {
-      navToggle.addEventListener("click", () => {
-        navMenu.classList.toggle("active");
-        navToggle.classList.toggle("active");
-      });
-    }
-
-    const skillBars = document.querySelectorAll(".skill-progress");
-
-    function animateSkills() {
-      skillBars.forEach((bar) => {
-        const barTop = bar.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-        if (barTop < windowHeight - 50) {
-          bar.style.width = bar.dataset.width;
-        }
-      });
-    }
-    document.addEventListener("scroll", animateSkills);
-
-    window.addEventListener("scroll", () => {
-      this.handleScroll();
-    });
-    window.addEventListener("resize", () => {
-      this.handleResize();
-    });
-    document.addEventListener("mousemove", (e) => {
-      this.updateCursor(e);
-    });
-
-    document.querySelectorAll(".social-card").forEach((card) => {
-      card.addEventListener("mouseenter", () => {
-        this.animateSocialCard(card, true);
-      });
-      card.addEventListener("mouseleave", () => {
-        this.animateSocialCard(card, false);
-      });
-    });
-
-    document.addEventListener("keydown", (e) => {
-      this.handleKeyboard(e);
-    });
-
-    // Secret overlay close
-    if (this.closeSecretBtn) {
-      this.closeSecretBtn.addEventListener("click", () => {
-        this.secretOverlay.classList.remove("active");
-      });
-    }
-  }
-
-  /* Particles */
-  createParticles() {
-    const container = document.getElementById("particles-container");
-    const particleCount = 50;
-    for (let i = 0; i < particleCount; i++) {
-      const p = document.createElement("div");
-      p.className = "particle";
-      const size = Math.random() * 3 + 1;
-      p.style.width = size + "px";
-      p.style.height = size + "px";
-      p.style.left = Math.random() * 100 + "%";
-      p.style.animationDelay = Math.random() * 20 + "s";
-      p.style.animationDuration = Math.random() * 10 + 15 + "s";
-      container.appendChild(p);
-    }
-  }
-
-  /* THEME */
-  setupThemeToggle() {
-    const saved = localStorage.getItem("kyur-theme");
-    if (saved === "light") {
-      document.body.classList.add("light");
-      this.themeIcon.textContent = "☀️";
-    }
-    this.themeToggle?.addEventListener("click", () => {
-      document.body.classList.toggle("light");
-      const isLight = document.body.classList.contains("light");
-      this.themeIcon.textContent = isLight ? "☀️" : "🌙";
-      localStorage.setItem("kyur-theme", isLight ? "light" : "dark");
-    });
-  }
-
-  /* Typing animation */
-  setupTyping() {
-    const tick = () => {
-      const phrase =
-        this.typingPhrases[this.typeIndex % this.typingPhrases.length];
-      const full = phrase;
-      if (!this.isDeleting) {
-        this.charIndex++;
-        if (this.charIndex >= full.length) {
-          this.isDeleting = true;
-          setTimeout(tick, 1200);
-          this.renderTyping(full.substring(0, this.charIndex));
-          return;
-        }
-      } else {
-        this.charIndex--;
-        if (this.charIndex <= 0) {
-          this.isDeleting = false;
-          this.typeIndex++;
+      // Cycle messages at thresholds
+      const newMsgIdx = Math.floor((progress / 100) * messages.length);
+      if (newMsgIdx !== msgIndex && newMsgIdx < messages.length) {
+        msgIndex = newMsgIdx;
+        if (subEl) {
+          subEl.style.opacity = '0';
+          setTimeout(() => {
+            subEl.textContent = messages[msgIndex];
+            subEl.style.opacity = '1';
+          }, 150);
         }
       }
-      this.renderTyping(full.substring(0, this.charIndex));
-      const speed = this.isDeleting ? 40 : 80;
-      setTimeout(tick, speed);
-    };
-    tick();
-  }
-  renderTyping(text) {
-    if (this.typedTextEl) this.typedTextEl.textContent = text;
-  }
 
-  /* Projects filter */
-  setupProjectsFilter() {
-    const buttons = document.querySelectorAll(".filter-btn");
-    const cards = document.querySelectorAll(".project-card");
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        buttons.forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        const filter = btn.getAttribute("data-filter");
-        cards.forEach((card) => {
-          const category = card.getAttribute("data-category");
-          const show = filter === "all" || filter === category;
-          card.style.display = show ? "block" : "none";
-        });
-      });
-    });
-  }
-
-  /* Music base controls */
-  setupMusicPlayer() {
-    if (!this.audioPlayer) return;
-
-    this.playBtn.addEventListener("click", () => {
-      this.togglePlayPause();
-    });
-
-    this.progressContainer.addEventListener("click", (e) => {
-      this.seekAudio(e);
-    });
-
-    let isDragging = false;
-    this.progressHandle.addEventListener("mousedown", () => {
-      isDragging = true;
-    });
-    document.addEventListener("mousemove", (e) => {
-      if (isDragging) {
-        this.dragProgress(e);
-      }
-    });
-    document.addEventListener("mouseup", () => {
-      isDragging = false;
-    });
-
-    this.volumeSlider.addEventListener("input", (e) => {
-      this.audioPlayer.volume = e.target.value / 100;
-    });
-
-    this.audioPlayer.addEventListener("loadedmetadata", () => {
-      if (!isNaN(this.audioPlayer.duration)) {
-        this.durationDisplay.textContent = this.formatTime(
-          this.audioPlayer.duration
-        );
-      }
-    });
-
-    this.audioPlayer.addEventListener("timeupdate", () => {
-      this.updateProgress();
-    });
-    this.audioPlayer.addEventListener("ended", () => {
-      this.nextTrack();
-    });
-
-    this.audioPlayer.volume = 0.7;
-    this.startVisualizer();
-  }
-
-  /* Playlist */
-  setupPlaylist() {
-    if (!this.audioPlayer) return;
-    const loadTrack = (index) => {
-      const track = this.tracks[index];
-      if (!track) return;
-      this.audioPlayer.src = track.src; // kamu ganti file mp3 sesuai koleksi kamu
-      this.songTitleEl.textContent = track.title;
-      this.songArtistEl.textContent = track.artist;
-      this.audioPlayer.load();
-      this.isPlaying = false;
-      const playIcon = this.playBtn.querySelector(".play-icon");
-      const pauseIcon = this.playBtn.querySelector(".pause-icon");
-      playIcon.style.display = "inline";
-      pauseIcon.style.display = "none";
-      this.progressBar.style.width = "0%";
-      this.progressHandle.style.left = "0%";
-      this.currentTimeDisplay.textContent = "0:00";
-      this.durationDisplay.textContent = "0:00";
-    };
-
-    this.prevBtn?.addEventListener("click", () => {
-      this.prevTrack();
-    });
-    this.nextBtn?.addEventListener("click", () => {
-      this.nextTrack();
-    });
-
-    this.loadTrack = loadTrack;
-    this.prevTrack = () => {
-      this.currentTrack =
-        (this.currentTrack - 1 + this.tracks.length) % this.tracks.length;
-      loadTrack(this.currentTrack);
-      this.togglePlayPause(true);
-    };
-    this.nextTrack = () => {
-      this.currentTrack = (this.currentTrack + 1) % this.tracks.length;
-      loadTrack(this.currentTrack);
-      this.togglePlayPause(true);
-    };
-
-    loadTrack(this.currentTrack);
-  }
-
-  togglePlayPause(forcePlay = false) {
-    const playIcon = this.playBtn.querySelector(".play-icon");
-    const pauseIcon = this.playBtn.querySelector(".pause-icon");
-
-    if (this.isPlaying && !forcePlay) {
-      this.audioPlayer.pause();
-      playIcon.style.display = "inline";
-      pauseIcon.style.display = "none";
-      this.isPlaying = false;
-      this.stopVisualizer();
-    } else {
-      this.audioPlayer.play().catch(() => {});
-      playIcon.style.display = "none";
-      pauseIcon.style.display = "inline";
-      this.isPlaying = true;
-      this.startVisualizer();
-    }
-  }
-
-  seekAudio(e) {
-    const rect = this.progressContainer.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const width = rect.width;
-    const percentage = clickX / width;
-    const newTime = percentage * this.audioPlayer.duration;
-    this.audioPlayer.currentTime = newTime;
-  }
-  dragProgress(e) {
-    const rect = this.progressContainer.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const width = rect.width;
-    const percentage = Math.max(0, Math.min(1, clickX / width));
-    const newTime = percentage * this.audioPlayer.duration;
-    this.audioPlayer.currentTime = newTime;
-  }
-  updateProgress() {
-    if (!this.audioPlayer.duration || isNaN(this.audioPlayer.duration)) return;
-    const progress =
-      (this.audioPlayer.currentTime / this.audioPlayer.duration) * 100;
-    this.progressBar.style.width = progress + "%";
-    this.progressHandle.style.left = progress + "%";
-    this.currentTimeDisplay.textContent = this.formatTime(
-      this.audioPlayer.currentTime
-    );
-    this.durationDisplay.textContent = this.formatTime(
-      this.audioPlayer.duration
-    );
-  }
-  formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60) || 0;
-    const remainingSeconds = Math.floor(seconds % 60) || 0;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
-  }
-
-  startVisualizer() {
-    if (this.animationId) cancelAnimationFrame(this.animationId);
-    const animate = () => {
-      this.visualizerBars.forEach((bar) => {
-        const height = Math.random() * 50 + 10;
-        bar.style.height = height + "px";
-        bar.style.opacity = this.isPlaying ? 1 : 0.3;
-      });
-      if (this.isPlaying) {
-        this.animationId = requestAnimationFrame(animate);
-      }
-    };
-    animate();
-  }
-  stopVisualizer() {
-    if (this.animationId) cancelAnimationFrame(this.animationId);
-    this.visualizerBars.forEach((b) => (b.style.opacity = 0.3));
-  }
-
-  /* Scroll reveal */
-  setupScrollAnimations() {
-    const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("animate-in");
-          if (entry.target.classList.contains("hero-section"))
-            this.animateCounters();
-        }
-      });
-    }, observerOptions);
-
-    document
-      .querySelectorAll("section, .skill-item, .project-card, .social-card")
-      .forEach((el) => observer.observe(el));
-  }
-  animateCounters() {
-    const counters = document.querySelectorAll(".stat-number");
-    counters.forEach((counter) => {
-      const target = parseInt(counter.getAttribute("data-target"));
-      const duration = 2000;
-      const step = target / (duration / 16);
-      let current = 0;
-      const updateCounter = () => {
-        current += step;
-        if (current < target) {
-          counter.textContent = Math.floor(current);
-          requestAnimationFrame(updateCounter);
-        } else {
-          counter.textContent = target;
-        }
-      };
-      updateCounter();
-    });
-  }
-
-  /* Custom cursor */
-  setupCustomCursor() {
-    this.cursorElement = document.createElement("div");
-    this.cursorElement.className = "custom-cursor";
-    this.cursorElement.style.cssText = `
-      position: fixed; width: 20px; height: 20px;
-      background: radial-gradient(circle, white 2px, transparent 2px);
-      border-radius: 50%; pointer-events: none; z-index: 10000;
-      mix-blend-mode: difference; transition: transform .1s ease;
-    `;
-    document.body.appendChild(this.cursorElement);
-    this.updateCursorPosition();
-  }
-  updateCursor(e) {
-    this.cursor.x = e.clientX;
-    this.cursor.y = e.clientY;
-  }
-  updateCursorPosition() {
-    if (this.cursorElement) {
-      this.cursorElement.style.left = this.cursor.x + "px";
-      this.cursorElement.style.top = this.cursor.y + "px";
-    }
-    requestAnimationFrame(() => this.updateCursorPosition());
-  }
-
-  /* Loading */
-  setupLoadingScreen() {
-    const loadingScreen = document.getElementById("loading-screen");
-    const progressBar = document.querySelector(".loading-progress");
-    let progress = 0;
-    const loadingInterval = setInterval(() => {
-      progress += Math.random() * 15;
       if (progress >= 100) {
-        progress = 100;
-        clearInterval(loadingInterval);
-        setTimeout(() => {
-          loadingScreen.style.opacity = "0";
-          loadingScreen.style.visibility = "hidden";
-          document.body.style.overflow = "auto";
-        }, 500);
+        clearInterval(interval);
+        hide();
       }
-      progressBar.style.width = progress + "%";
-    }, 100);
+    }, 22);
   }
 
-  /* Smooth scroll */
-  smoothScrollTo(target) {
-    const targetPosition = target.offsetTop - 80;
-    const startPosition = window.pageYOffset;
-    const distance = targetPosition - startPosition;
-    const duration = 900;
-    let start = null;
-    const animation = (currentTime) => {
-      if (start === null) start = currentTime;
-      const timeElapsed = currentTime - start;
-      const run = this.easeInOutQuad(
-        timeElapsed,
-        startPosition,
-        distance,
-        duration
-      );
-      window.scrollTo(0, run);
-      if (timeElapsed < duration) requestAnimationFrame(animation);
-    };
-    requestAnimationFrame(animation);
-  }
-  easeInOutQuad(t, b, c, d) {
-    t /= d / 2;
-    if (t < 1) return (c / 2) * t * t + b;
-    t--;
-    return (-c / 2) * (t * (t - 2) - 1) + b;
+  function hide() {
+    setTimeout(() => {
+      // Play wipe-out animation then truly hide
+      loader.classList.add('hiding');
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        document.body.classList.remove('loading');
+        triggerHomeReveal();
+      }, 700);
+    }, 300);
   }
 
-  setActiveNavLink(activeLink) {
-    document
-      .querySelectorAll(".nav-link")
-      .forEach((l) => l.classList.remove("active"));
-    activeLink.classList.add("active");
+  function triggerHomeReveal() {
+    const homeReveals = document.querySelectorAll('.section-home .reveal');
+    homeReveals.forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 130);
+    });
   }
 
-  handleScroll() {
-    const currentScrollY = window.pageYOffset;
-    const navbar = document.querySelector(".navbar");
-    if (currentScrollY > 50) navbar.classList.add("scrolled");
-    else navbar.classList.remove("scrolled");
+  return { init };
+})();
 
-    // Update active on scroll
-    const sections = document.querySelectorAll("section");
-    sections.forEach((section) => {
+
+/* ──────────────────────────────────────────────────
+   MODULE: THEME
+   Dark/Light toggle with localStorage persistence
+────────────────────────────────────────────────── */
+const Theme = (() => {
+  const btn = document.getElementById('themeToggle');
+  const STORAGE_KEY = 'portfolio-theme';
+
+  function init() {
+    // Load saved preference or default to dark
+    const saved = localStorage.getItem(STORAGE_KEY) || 'dark';
+    apply(saved);
+
+    btn.addEventListener('click', toggle);
+  }
+
+  function apply(theme) {
+    if (theme === 'light') {
+      document.body.classList.add('light');
+    } else {
+      document.body.classList.remove('light');
+    }
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+
+  function toggle() {
+    const isLight = document.body.classList.contains('light');
+    apply(isLight ? 'dark' : 'light');
+  }
+
+  return { init };
+})();
+
+
+/* ──────────────────────────────────────────────────
+   MODULE: NAVIGATION
+   Sticky nav, active link highlighting, smooth scroll
+────────────────────────────────────────────────── */
+const Navigation = (() => {
+  const navbar = document.getElementById('navbar');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+
+  const sections = document.querySelectorAll('section[id]');
+
+  function init() {
+    // Scroll listener for active state + scrolled class
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Mobile menu toggle
+    menuToggle.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      menuToggle.classList.toggle('open', isOpen);
+    });
+
+    // Smooth scroll for nav links
+    [...navLinks, ...mobileLinks].forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href.startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          // Close mobile menu if open
+          mobileMenu.classList.remove('open');
+          menuToggle.classList.remove('open');
+        }
+      });
+    });
+  }
+
+  function onScroll() {
+    const scrollY = window.scrollY;
+
+    // Toggle scrolled class for backdrop blur
+    navbar.classList.toggle('scrolled', scrollY > 40);
+
+    // Highlight active section
+    let currentSection = '';
+    sections.forEach(section => {
       const sectionTop = section.offsetTop - 100;
-      const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute("id");
-      if (
-        currentScrollY >= sectionTop &&
-        currentScrollY < sectionTop + sectionHeight
-      ) {
-        const activeLink = document.querySelector(
-          `.nav-link[href="#${sectionId}"]`
-        );
-        if (activeLink) this.setActiveNavLink(activeLink);
+      if (scrollY >= sectionTop) {
+        currentSection = section.getAttribute('id');
       }
     });
 
-    this.lastScrollY = currentScrollY;
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${currentSection}`);
+    });
   }
 
-  handleResize() {
-    /* reserved for future adjustments */
+  return { init };
+})();
+
+
+/* ──────────────────────────────────────────────────
+   MODULE: SCROLL REVEAL
+   Intersection Observer for fade-in animations
+────────────────────────────────────────────────── */
+const ScrollReveal = (() => {
+  // Exclude home section (handled by Loader module)
+  const elements = document.querySelectorAll('.reveal:not(.section-home .reveal)');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // Animate once
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  function init() {
+    elements.forEach(el => observer.observe(el));
   }
 
-  animateSocialCard(card, isHover) {
-    const arrow = card.querySelector(".social-arrow");
-    if (isHover) {
-      card.style.transform = "translateY(-5px)";
-      arrow.style.transform = "translateX(5px)";
+  return { init };
+})();
+
+
+/* ──────────────────────────────────────────────────
+   MODULE: COUNTERS
+   Animated number counters for the stat section
+────────────────────────────────────────────────── */
+const Counters = (() => {
+  const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+  let animated = false;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !animated) {
+        animated = true;
+        statNumbers.forEach(el => animateCounter(el));
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 1800;
+    const startTime = performance.now();
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target);
+      if (progress < 1) requestAnimationFrame(update);
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  function init() {
+    const statsSection = document.querySelector('.home-stats');
+    if (statsSection) observer.observe(statsSection);
+  }
+
+  return { init };
+})();
+
+
+
+
+/* ──────────────────────────────────────────────────
+   MODULE: MUSIC PLAYER
+   Full-featured custom audio player with playlist
+────────────────────────────────────────────────── */
+const MusicPlayer = (() => {
+
+  // ── Playlist Data ──
+  // Replace src values with real audio file paths in /assets/music/
+  const tracks = [
+    { title: 'Love For You',   artist: 'Loveli Iori', src: 'assets/music/song.mp3', duration: '2:50' },
+    { title: 'Love Me Not',      artist: 'Ravyn Lenae', src: 'assets/music/song2.mp3', duration: '3:33' },
+    { title: 'A Little Death',      artist: 'The Neighbourhood', src: 'assets/music/song3.mp3', duration: '3:29' },
+    { title: 'Golden Brown',      artist: 'The Stranglers', src: 'assets/music/song4.mp3', duration: '4:08' },
+    { title: 'LET THE WORLD BURN',   artist: 'Chris Grey', src: 'assets/music/song5.mp3', duration: '2:43' },
+    { title: 'HEADLIGHT',      artist: 'Alan Walker', src: 'assets/music/song6.mp3', duration: '2:38' },
+    { title: 'Swim',        artist: 'Chase Atlantic', src: 'assets/music/song7.mp3', duration: '3:48' },
+  ];
+
+
+  // ── State ──
+  let currentIndex = 0;
+  let isPlaying = false;
+  let audio = new Audio();
+
+  // ── DOM References ──
+  const playBtn       = document.getElementById('playBtn');
+  const prevBtn       = document.getElementById('prevBtn');
+  const nextBtn       = document.getElementById('nextBtn');
+  const trackTitle    = document.getElementById('trackTitle');
+  const trackArtist   = document.getElementById('trackArtist');
+  const trackBadge    = document.getElementById('trackBadge');
+  const vinylInitial  = document.getElementById('vinylInitial');
+  const vinylDisk     = document.getElementById('vinylDisk');
+  const progressBar   = document.getElementById('progressBar');
+  const progressFill  = document.getElementById('progressFill');
+  const progressThumb = document.querySelector('.progress-thumb');
+  const timeCurrent   = document.getElementById('timeCurrent');
+  const timeTotal     = document.getElementById('timeTotal');
+  const volumeSlider  = document.getElementById('volumeSlider');
+  const playlistEl    = document.getElementById('playlist');
+
+  // ── Utilities ──
+  function formatTime(secs) {
+    if (isNaN(secs)) return '0:00';
+    const m = Math.floor(secs / 60);
+    const s = Math.floor(secs % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  // ── Playlist Rendering ──
+  function renderPlaylist() {
+    playlistEl.innerHTML = '';
+    tracks.forEach((track, i) => {
+      const li = document.createElement('li');
+      li.className = `playlist-item${i === currentIndex ? ' active' : ''}`;
+      li.innerHTML = `
+        <span class="pl-num">${String(i + 1).padStart(2, '0')}</span>
+        <div class="pl-info">
+          <div class="pl-title">${track.title}</div>
+        </div>
+        <span class="pl-duration">${track.duration}</span>
+      `;
+      li.addEventListener('click', () => loadTrack(i, true));
+      playlistEl.appendChild(li);
+    });
+  }
+
+  // ── Load Track ──
+  function loadTrack(index, autoPlay = false) {
+    currentIndex = index;
+    const track = tracks[currentIndex];
+
+    // Update UI
+    trackTitle.textContent  = track.title;
+    trackArtist.textContent = track.artist;
+    trackBadge.textContent  = `TRACK ${String(currentIndex + 1).padStart(2, '0')}`;
+    vinylInitial.textContent = track.title[0];
+
+    // Update audio src
+    audio.src = track.src;
+    audio.volume = parseFloat(volumeSlider.value);
+
+    // Update playlist active state
+    document.querySelectorAll('.playlist-item').forEach((item, i) => {
+      item.classList.toggle('active', i === currentIndex);
+    });
+
+    // Reset progress
+    progressFill.style.width = '0%';
+    if (progressThumb) progressThumb.style.left = '0%';
+    timeCurrent.textContent = '0:00';
+    timeTotal.textContent = track.duration;
+
+    if (autoPlay) {
+      playTrack();
     } else {
-      card.style.transform = "translateY(0)";
-      arrow.style.transform = "translateX(0)";
+      pauseTrack();
     }
   }
 
-  /* Keyboard */
-  handleKeyboard(e) {
-    // Easter Egg buffer
-    this.konamiBuffer.push(e.code);
-    if (this.konamiBuffer.length > this.konamiSeq.length)
-      this.konamiBuffer.shift();
-    if (this.konamiSeq.every((k, i) => this.konamiBuffer[i] === k)) {
-      this.secretOverlay.classList.add("active");
-      this.konamiBuffer = [];
-    }
-
-    // Media controls
-    if (e.code === "Space" && e.target === document.body) {
-      e.preventDefault();
-      this.togglePlayPause();
-    }
-    if (e.code === "ArrowUp") {
-      e.preventDefault();
-      const v = this.volumeSlider.value;
-      const nv = Math.min(100, parseInt(v) + 5);
-      this.volumeSlider.value = nv;
-      this.audioPlayer.volume = nv / 100;
-    }
-    if (e.code === "ArrowDown") {
-      e.preventDefault();
-      const v = this.volumeSlider.value;
-      const nv = Math.max(0, parseInt(v) - 5);
-      this.volumeSlider.value = nv;
-      this.audioPlayer.volume = nv / 100;
-    }
-    if (e.code === "ArrowLeft") {
-      e.preventDefault();
-      this.audioPlayer.currentTime = Math.max(
-        0,
-        this.audioPlayer.currentTime - 5
-      );
-    }
-    if (e.code === "ArrowRight") {
-      e.preventDefault();
-      this.audioPlayer.currentTime = Math.min(
-        this.audioPlayer.duration || 0,
-        this.audioPlayer.currentTime + 5
-      );
-    }
-  }
-
-  /* Parallax */
-  setupParallax() {
-    const parallaxEls = document.querySelectorAll("[data-parallax]");
-    const onScroll = () => {
-      const y = window.scrollY;
-      parallaxEls.forEach((el) => {
-        const speed = parseFloat(el.getAttribute("data-parallax")) || 0.1;
-        el.style.transform = `translateY(${y * speed * -0.2}px)`;
+  // ── Play / Pause ──
+  function playTrack() {
+    if (audio.src) {
+      audio.play().catch(() => {
+        // Audio play failed (likely no real file) — simulate playback UI
+        simulatePlayback();
       });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    } else {
+      // No real audio file — simulate playback for demo
+      simulatePlayback();
+    }
+    isPlaying = true;
+    playBtn.textContent = '⏸';
+    vinylDisk.classList.add('playing');
   }
 
-  /* Utility for gallery hover (kept for consistency) */
-  animateGalleryItem(item, isHover) {
-    const image = item.querySelector(".gallery-image");
-    if (!image) return;
-    if (isHover) {
-      item.style.transform = "translateY(-10px) scale(1.02)";
-      image.style.filter = "brightness(0.7)";
+  function pauseTrack() {
+    audio.pause();
+    clearSimulation();
+    isPlaying = false;
+    playBtn.textContent = '▶';
+    vinylDisk.classList.remove('playing');
+  }
+
+  function togglePlay() {
+    isPlaying ? pauseTrack() : playTrack();
+  }
+
+  // ── Simulated Playback (for demo without real audio files) ──
+  let simInterval = null;
+  let simProgress = 0;
+
+  function simulatePlayback() {
+    clearSimulation();
+    const totalSecs = parseDuration(tracks[currentIndex].duration);
+    simInterval = setInterval(() => {
+      simProgress += 0.5;
+      if (simProgress >= totalSecs) {
+        clearSimulation();
+        nextTrack();
+        return;
+      }
+      const pct = (simProgress / totalSecs) * 100;
+      progressFill.style.width = `${pct}%`;
+      if (progressThumb) progressThumb.style.left = `${pct}%`;
+      timeCurrent.textContent = formatTime(simProgress);
+    }, 500);
+  }
+
+  function clearSimulation() {
+    clearInterval(simInterval);
+    simInterval = null;
+  }
+
+  function parseDuration(str) {
+    const [m, s] = str.split(':').map(Number);
+    return m * 60 + s;
+  }
+
+  // ── Next / Prev ──
+  function nextTrack() {
+    const nextIndex = (currentIndex + 1) % tracks.length;
+    simProgress = 0;
+    loadTrack(nextIndex, isPlaying);
+  }
+
+  function prevTrack() {
+    // If played > 3s, restart; otherwise go to previous
+    const threshold = 3;
+    if (simProgress > threshold || audio.currentTime > threshold) {
+      simProgress = 0;
+      audio.currentTime = 0;
+      progressFill.style.width = '0%';
+      timeCurrent.textContent = '0:00';
     } else {
-      item.style.transform = "translateY(0) scale(1)";
-      image.style.filter = "brightness(1)";
+      const prevIndex = (currentIndex - 1 + tracks.length) % tracks.length;
+      simProgress = 0;
+      loadTrack(prevIndex, isPlaying);
     }
   }
 
-  /* Easter Egg setup already within keyboard, overlay handled above */
-}
+  // ── Progress Bar Click ──
+  function onProgressClick(e) {
+    const rect = progressBar.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const pct = Math.max(0, Math.min(1, clickX / rect.width));
+    const totalSecs = parseDuration(tracks[currentIndex].duration);
+    simProgress = pct * totalSecs;
+    progressFill.style.width = `${pct * 100}%`;
+    if (progressThumb) progressThumb.style.left = `${pct * 100}%`;
+    timeCurrent.textContent = formatTime(simProgress);
 
-document.addEventListener("DOMContentLoaded", () => {
-  new AdvancedPortfolio();
+    if (audio.src && audio.duration) {
+      audio.currentTime = pct * audio.duration;
+    }
+  }
+
+  // ── Audio Events ──
+  function bindAudioEvents() {
+    audio.addEventListener('timeupdate', () => {
+      if (!audio.duration) return;
+      const pct = (audio.currentTime / audio.duration) * 100;
+      progressFill.style.width = `${pct}%`;
+      if (progressThumb) progressThumb.style.left = `${pct}%`;
+      timeCurrent.textContent = formatTime(audio.currentTime);
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+      timeTotal.textContent = formatTime(audio.duration);
+    });
+
+    audio.addEventListener('ended', () => {
+      nextTrack();
+    });
+  }
+
+  // ── Volume ──
+  function onVolumeChange() {
+    audio.volume = parseFloat(volumeSlider.value);
+  }
+
+  // ── Init ──
+  function init() {
+    renderPlaylist();
+    loadTrack(0, false);
+    bindAudioEvents();
+
+    playBtn.addEventListener('click', togglePlay);
+    nextBtn.addEventListener('click', nextTrack);
+    prevBtn.addEventListener('click', prevTrack);
+    progressBar.addEventListener('click', onProgressClick);
+    volumeSlider.addEventListener('input', onVolumeChange);
+  }
+
+  return { init };
+})();
+
+
+/* ──────────────────────────────────────────────────
+   MODULE: TYPING EFFECT
+   Cycles through words with typewriter animation
+────────────────────────────────────────────────── */
+const Typer = (() => {
+  const el = document.getElementById('typingText');
+  if (!el) return { init: () => {} };
+
+  const words = [
+    'full-stack apps.',
+    'Minecraft plugins.',
+    'Discord bots.',
+    'AI-powered tools.',
+    'automation scripts.',
+    'digital experiences.',
+    'things that matter.',
+  ];
+
+  let wordIndex  = 0;
+  let charIndex  = 0;
+  let isDeleting = false;
+  let isPaused   = false;
+
+  // Timing (ms)
+  const TYPE_SPEED   = 75;
+  const DELETE_SPEED = 40;
+  const PAUSE_AFTER  = 1800; // how long to hold the full word
+  const PAUSE_BEFORE = 300;  // brief pause before typing next word
+
+  function tick() {
+    const currentWord = words[wordIndex];
+
+    if (isPaused) return; // pauses are handled via setTimeout below
+
+    if (!isDeleting) {
+      // Type one character
+      charIndex++;
+      el.textContent = currentWord.slice(0, charIndex);
+
+      if (charIndex === currentWord.length) {
+        // Word fully typed — pause then start deleting
+        isPaused = true;
+        setTimeout(() => {
+          isPaused = false;
+          isDeleting = true;
+          schedule();
+        }, PAUSE_AFTER);
+        return;
+      }
+    } else {
+      // Delete one character
+      charIndex--;
+      el.textContent = currentWord.slice(0, charIndex);
+
+      if (charIndex === 0) {
+        // Word fully deleted — move to next word, brief pause
+        isDeleting = false;
+        wordIndex  = (wordIndex + 1) % words.length;
+        isPaused   = true;
+        setTimeout(() => {
+          isPaused = false;
+          schedule();
+        }, PAUSE_BEFORE);
+        return;
+      }
+    }
+
+    schedule();
+  }
+
+  function schedule() {
+    const delay = isDeleting ? DELETE_SPEED : TYPE_SPEED;
+    setTimeout(tick, delay);
+  }
+
+  function init() {
+    // Start after loader finishes (~2.2s for new animated loader)
+    setTimeout(schedule, 2400);
+  }
+
+  return { init };
+})();
+
+
+/* ──────────────────────────────────────────────────
+   MODULE: TIMELINE
+   Staggered reveal for timeline entries
+────────────────────────────────────────────────── */
+const Timeline = (() => {
+  // Query inside init() so the DOM is guaranteed to be ready
+  function init() {
+    const items = document.querySelectorAll('.timeline-item.reveal');
+    if (!items.length) return;
+
+    items.forEach((item, i) => {
+      // Stagger each timeline card slightly as it scrolls into view
+      item.style.transitionDelay = `${i * 0.08}s`;
+    });
+  }
+
+  return { init };
+})();
+
+
+/* ──────────────────────────────────────────────────
+   MODULE: SKILL BARS
+   Animates SVG ring progress + featured bar fills
+   + sets --level CSS var for bottom indicator bar
+────────────────────────────────────────────────── */
+const SkillBars = (() => {
+  const CIRCUMFERENCE = 2 * Math.PI * 32; // 201.06
+
+  function animateRings(entries, observer) {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const card = entry.target;
+      const ringFill = card.querySelector('.ring-fill');
+      if (!ringFill) return;
+      const pct = parseFloat(ringFill.dataset.pct);
+      const offset = CIRCUMFERENCE * (1 - pct / 100);
+      // Set CSS variable for the bottom bar width
+      card.style.setProperty('--level', `${pct}%`);
+      setTimeout(() => {
+        ringFill.style.strokeDashoffset = offset;
+        card.classList.add('animated');
+      }, 120);
+      observer.unobserve(card);
+    });
+  }
+
+  function animateFeatBars(entries, observer) {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.querySelectorAll('.feat-bar-fill[data-width]').forEach((fill, i) => {
+        setTimeout(() => {
+          fill.style.width = `${fill.dataset.width}%`;
+        }, i * 80);
+      });
+      observer.unobserve(entry.target);
+    });
+  }
+
+  function init() {
+    const ringObserver = new IntersectionObserver(animateRings, { threshold: 0.3 });
+    document.querySelectorAll('.skill-card').forEach(card => ringObserver.observe(card));
+
+    const barObserver = new IntersectionObserver(animateFeatBars, { threshold: 0.3 });
+    const featPanel = document.querySelector('.skills-featured');
+    if (featPanel) barObserver.observe(featPanel);
+  }
+
+  return { init };
+})();
+
+
+/* ──────────────────────────────────────────────────
+   MODULE: GLOBAL BACKGROUND CANVAS
+   Persistent node network visible across ALL sections.
+   Nodes bounce softly, connect with lines, react to mouse.
+────────────────────────────────────────────────── */
+const BackgroundFX = (() => {
+  let canvas, ctx, nodes = [], W, H;
+  let mouse = { x: -9999, y: -9999 };
+  const NODE_COUNT = 70;
+  const MAX_DIST   = 150;
+
+  /* ── Node class ── */
+  class Node {
+    constructor() { this.init(); }
+    init() {
+      this.x         = Math.random() * W;
+      this.y         = Math.random() * H;
+      this.vx        = (Math.random() - 0.5) * 0.28;
+      this.vy        = (Math.random() - 0.5) * 0.28;
+      this.r         = Math.random() * 1.6 + 0.4;
+      this.baseAlpha = Math.random() * 0.3 + 0.1;
+      this.alpha     = this.baseAlpha;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      // Bounce off edges with slight damping
+      if (this.x < 0)  { this.x = 0;  this.vx *= -1; }
+      if (this.x > W)  { this.x = W;  this.vx *= -1; }
+      if (this.y < 0)  { this.y = 0;  this.vy *= -1; }
+      if (this.y > H)  { this.y = H;  this.vy *= -1; }
+      // Mouse proximity — brightens and slightly repels
+      const dx   = this.x - mouse.x;
+      const dy   = this.y - mouse.y;
+      const d    = Math.sqrt(dx * dx + dy * dy);
+      if (d < 160) {
+        this.alpha = this.baseAlpha + (1 - d / 160) * 0.55;
+        // Gentle repulsion
+        const force = (160 - d) / 160 * 0.4;
+        this.x += (dx / (d || 1)) * force;
+        this.y += (dy / (d || 1)) * force;
+      } else {
+        this.alpha = this.baseAlpha;
+      }
+    }
+    draw() {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light'
+        || document.body.classList.contains('light');
+      const color = isLight ? '30,30,30' : '255,255,255';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${color},${this.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function drawConnections() {
+    const isLight = document.body.classList.contains('light');
+    const color = isLight ? '30,30,30' : '255,255,255';
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < MAX_DIST) {
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = `rgba(${color},${(1 - d / MAX_DIST) * 0.13})`;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function drawMouseConnections() {
+    if (mouse.x === -9999) return;
+    const isLight = document.body.classList.contains('light');
+    const color = isLight ? '30,30,30' : '255,255,255';
+    nodes.forEach(node => {
+      const dx = node.x - mouse.x;
+      const dy = node.y - mouse.y;
+      const d  = Math.sqrt(dx * dx + dy * dy);
+      if (d < 200) {
+        ctx.beginPath();
+        ctx.moveTo(mouse.x, mouse.y);
+        ctx.lineTo(node.x, node.y);
+        ctx.strokeStyle = `rgba(${color},${(1 - d / 200) * 0.22})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    });
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    drawConnections();
+    drawMouseConnections();
+    nodes.forEach(n => { n.update(); n.draw(); });
+    requestAnimationFrame(loop);
+  }
+
+  function init() {
+    canvas = document.getElementById('globalBgCanvas');
+    if (!canvas) return;
+    ctx = canvas.getContext('2d');
+
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    // Mouse tracking for interaction
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    }, { passive: true });
+    document.addEventListener('mouseleave', () => {
+      mouse.x = -9999; mouse.y = -9999;
+    });
+
+    // Spawn nodes and start loop
+    for (let i = 0; i < NODE_COUNT; i++) nodes.push(new Node());
+    loop();
+
+    // Home grid parallax on mouse
+    const grid = document.querySelector('.home-bg-grid');
+    if (grid) {
+      window.addEventListener('mousemove', (e) => {
+        const xP = (e.clientX / window.innerWidth  - 0.5) * 18;
+        const yP = (e.clientY / window.innerHeight - 0.5) * 18;
+        grid.style.transform = `translate(${xP}px, ${yP}px)`;
+      }, { passive: true });
+    }
+  }
+
+  return { init };
+})();
+
+
+/* ──────────────────────────────────────────────────
+   MODULE: CUSTOM CURSOR
+   Dot + ring cursor with hover/click states
+────────────────────────────────────────────────── */
+const Cursor = (() => {
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let dotX = 0, dotY = 0, ringX = 0, ringY = 0;
+  let raf;
+
+  function init() {
+    if (!dot || !ring) return;
+    // Hide on touch devices
+    if ('ontouchstart' in window) {
+      dot.style.display = 'none';
+      ring.style.display = 'none';
+      return;
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      dotX = e.clientX;
+      dotY = e.clientY;
+    }, { passive: true });
+
+    // Smooth ring follow via rAF lerp
+    function animate() {
+      ringX += (dotX - ringX) * 0.12;
+      ringY += (dotY - ringY) * 0.12;
+      dot.style.left  = `${dotX}px`;
+      dot.style.top   = `${dotY}px`;
+      ring.style.left = `${ringX}px`;
+      ring.style.top  = `${ringY}px`;
+      raf = requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Hover state on interactive elements
+    const hoverTargets = 'a, button, .project-card, .social-card, .about-card, .playlist-item, .ctrl-btn, .progress-bar';
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest(hoverTargets)) {
+        document.body.classList.add('cursor-hover');
+      }
+    });
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest(hoverTargets)) {
+        document.body.classList.remove('cursor-hover');
+      }
+    });
+
+    // Click shrink
+    document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+    document.addEventListener('mouseup',   () => document.body.classList.remove('cursor-click'));
+  }
+
+  return { init };
+})();
+
+
+/* ──────────────────────────────────────────────────
+   MODULE: SECTION TITLES
+   Splits title letters into spans for stagger reveal
+────────────────────────────────────────────────── */
+const SectionTitles = (() => {
+  function init() {
+    const titleTexts = document.querySelectorAll('.title-text');
+    titleTexts.forEach(el => {
+      const text = el.textContent;
+      el.innerHTML = text.split('').map((ch, i) =>
+        `<span class="title-char" style="transition-delay:${0.04 + i * 0.055}s">${ch}</span>`
+      ).join('');
+    });
+  }
+
+  return { init };
+})();
+
+
+
+/* ──────────────────────────────────────────────────
+   BOOTSTRAP — Initialize all modules
+────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  SectionTitles.init(); // Must run before ScrollReveal so chars exist
+  Loader.init();
+  Cursor.init();
+  Theme.init();
+  Navigation.init();
+  ScrollReveal.init();
+  Counters.init();
+  SkillBars.init();
+  MusicPlayer.init();
+  Timeline.init();
+  BackgroundFX.init();
+  Typer.init();
 });
-
-/* extra CSS injected for small nav behaviors */
-const style = document.createElement("style");
-style.textContent = `
-  .animate-in { animation: fadeInUp 0.8s ease forwards; }
-  .custom-cursor { transition: transform 0.1s ease; }
-  .nav-menu.active { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(0,0,0,0.95); padding: 1rem; gap: 1rem; }
-  body.light .nav-menu.active { background: rgba(255,255,255,0.98); }
-  .nav-toggle.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
-  .nav-toggle.active span:nth-child(2) { opacity: 0; }
-  .nav-toggle.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
-  @media (max-width: 768px) { .nav-menu { display: none; } }
-`;
-document.head.appendChild(style);

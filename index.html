@@ -1,544 +1,590 @@
 <!DOCTYPE html>
-<html lang="id">
-
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KỲUR - Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KYUR — Developer & Creator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body class="loading">
 
-<body>
-    <div id="particles-container"></div>
+  <!-- Custom Cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
 
-    <!-- Loading -->
-    <div id="loading-screen">
-        <div class="loading-content">
-            <div class="loading-logo">KỲUR</div>
-            <div class="loading-bar">
-                <div class="loading-progress"></div>
-            </div>
-            <div class="loading-text">Initializing Creative Space...</div>
-        </div>
+  <!-- Loading Screen -->
+  <div id="loader">
+    <div class="loader-bg-lines">
+      <span></span><span></span><span></span><span></span><span></span>
     </div>
-
-    <!-- Secret overlay (Easter Egg) -->
-    <div id="secret-overlay" aria-hidden="true">
-        <div class="secret-content">
-            <h2>✨ Secret Unlocked!</h2>
-            <p>You found the hidden room! Keep creating, keep exploring.</p>
-            <button id="close-secret" aria-label="Close secret">Close</button>
-        </div>
+    <div class="loader-inner">
+      <div class="loader-logo">
+        <span class="ll-char" style="--i:0">D</span><span class="ll-char" style="--i:1">E</span><span class="ll-char" style="--i:2">V</span><span class="ll-sep" style="--i:3">.</span>
+      </div>
+      <div class="loader-bar-wrap">
+        <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+        <span class="loader-pct" id="loaderPct">0%</span>
+      </div>
+      <span class="loader-sub" id="loaderSub">Initializing...</span>
     </div>
+    <div class="loader-corner tl"></div>
+    <div class="loader-corner tr"></div>
+    <div class="loader-corner bl"></div>
+    <div class="loader-corner br"></div>
+    <div class="loader-wipe"></div>
+  </div>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-brand">KỲUR</div>
-        <div class="nav-menu">
-            <a href="#home" class="nav-link active">Home</a>
-            <a href="#about" class="nav-link">About</a>
-            <a href="#projects" class="nav-link">Projects</a>
-            <a href="#music" class="nav-link">Music</a>
-            <a href="#timeline" class="nav-link">Timeline</a>
-            <a href="#contact" class="nav-link">Contact</a>
-        </div>
-
-        <!-- Theme toggle -->
-        <div class="theme-toggle" title="Toggle theme" aria-label="Toggle theme" id="themeToggle">
-            <span class="theme-icon" id="themeIcon">🌙</span>
-        </div>
-
-        <div class="nav-toggle" aria-label="Open Menu" role="button" tabindex="0">
-            <span></span><span></span><span></span>
-        </div>
-    </nav>
-
-    <div class="container">
-        <!-- Hero -->
-        <section id="home" class="hero-section" data-parallax="0.2">
-            <div class="hero-content">
-                <div class="profile-container" data-parallax="0.1">
-                    <div class="profile-ring">
-                        <div class="profile-image-wrapper">
-                            <img src="profile.jpg" alt="Kyur Profile" class="profile-image" />
-                            <div class="profile-overlay"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="hero-text">
-                    <h1 class="hero-title">
-                        <span class="title-line">KỲUR</span>
-                        <span class="title-line">PORTFOLIO</span>
-                    </h1>
-
-                            <!-- Typing animation -->
-                            <p class="hero-subtitle">
-                                <span id="typed-text" aria-live="polite"></span><span class="cursor">|</span>
-                            </p>
-
-                            <div class="hero-stats">
-                                <div class="stat-item">
-                                    <span class="stat-number" data-target="5">0</span>
-                                    <span class="stat-label">Projects</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number" data-target="3">0</span>
-                                    <span class="stat-label">Tracks</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number" data-target="140">0</span>
-                                    <span class="stat-label">Hours</span>
-                                </div>
-                            </div>
-                    </div>
-                </div>
-
-                <div class="scroll-indicator">
-                    <div class="scroll-arrow"></div>
-                    <span>Scroll to explore</span>
-                </div>
-        </section>
-
-        <!-- About -->
-        <section id="about" class="about-section">
-            <div class="section-header">
-                <h2 class="section-title">About Me</h2>
-                <div class="section-line"></div>
-            </div>
-            <div class="about-content">
-                <div class="about-text">
-                    <p class="about-intro">Welcome to my digital universe — a space where gaming passion, coding
-                        expertise, and server innovation converge into one vision.</p>
-                    <p>I specialize in building interactive experiences, developing Minecraft servers, and delivering
-                        reliable hosting solutions for communities of all sizes. Over the years, I’ve worked on various
-                        projects — from creating custom plugins and optimizing server performance, to managing thriving
-                        online communities and providing professional hosting services.</p>
-                    <p>My journey began with simple curiosity about how technology could bring ideas to life. That
-                        curiosity evolved into a drive to create, improve, and connect people through digital platforms.
-                        For me, coding is more than just lines of text; it’s a language for building worlds. Gaming is
-                        more than entertainment; it’s a source of creativity and collaboration. And server development
-                        is more than infrastructure; it’s about crafting seamless, engaging experiences for players.</p>
-                    <p>Today, I continue to merge creativity with technology, leading projects like BingungSMP and
-                        OrbitSMP, while supporting clients through my role at HeppyCloud. In the past, I also founded
-                        and managed Kyurastore Hosting (2022), gaining valuable experience in business operations and
-                        customer service. My mission is simple: to turn concepts into functional, memorable realities
-                        that leave a lasting impact on those who experience them.</p>
-                </div>
-
-                <div class="skills-grid">
-                    <div class="skill-card">
-                        <div class="skill-icon">🌐</div>
-                        <h3>HTML</h3>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="90%"></div>
-                            <span class="skill-percent">90%</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-card">
-                        <div class="skill-icon">🎨</div>
-                        <h3>CSS</h3>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="85%"></div>
-                            <span class="skill-percent">85%</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-card">
-                        <div class="skill-icon">⚡</div>
-                        <h3>JavaScript</h3>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="75%"></div>
-                            <span class="skill-percent">75%</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-card">
-                        <div class="skill-icon">🐍</div>
-                        <h3>Python</h3>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="70%"></div>
-                            <span class="skill-percent">70%</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-card">
-                        <div class="skill-icon">🛠</div>
-                        <h3>Minecraft Dev</h3>
-                        <div class="skill-bar">
-                            <div class="skill-progress" data-width="95%"></div>
-                            <span class="skill-percent">95%</span>
-                        </div>
-                    </div>
-                </div>
-        </section>
-
-        <!-- Projects -->
-        <section id="projects" class="projects-section">
-            <div class="section-header">
-                <h2 class="section-title">Projects</h2>
-                <div class="section-line"></div>
-            </div>
-
-            <div class="projects-filter">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="coding">Coding</button>
-                <button class="filter-btn" data-filter="Minecraft">Minecraft</button>
-                <button class="filter-btn" data-filter="Community Work">Community Work</button>
-            </div>
-
-            <div class="projects-grid">
-                <!-- 6 dummy projects -->
-                <article class="project-card" data-category="Community Work">
-                    <div class="project-thumb"
-                        style="background-image: url('https://files.cloudkuimages.guru/images/UJ67Vh1b.jpg');"></div>
-                    <div class="project-body">
-                        <h3 class="project-title">HEPPY CLOUD</h3>
-                        <p class="project-desc">Provided dedicated customer support at HeppyCloud Hosting, assisting
-                            clients with server setup, troubleshooting, performance optimization, and plugin
-                            configuration, ensuring smooth operations and a positive hosting experience for all users.
-                        </p>
-                        <div class="project-tags">
-                            <span>#comunity</span><span>#hosting</span><span>#support</span><span>#hosting-berkualitas</span>
-                        </div>
-                        <a href="https://heppyhost.my.id/" class="project-btn" target="_blank" rel="noopener">Visit
-                            HeppyCloud</a>
-                    </div>
-                </article>
-
-                <article class="project-card" data-category="Minecraft">
-                    <div class="project-thumb"
-                        style="background-image: url('https://files.cloudkuimages.guru/images/6TEqFaC4.jpg');"></div>
-                    <div class="project-body">
-                        <h3 class="project-title">BINGUNG SMP</h3>
-                        <p class="project-desc">Led the development and management of Bingung SMP, creating custom
-                            plugins, hosting community events, and fostering a friendly and active Minecraft player
-                            base.</p>
-                        <div class="project-tags"><span>#minecraft</span><span>
-                                <div>#owner</div>
-                            </span><span>#comunity</span><span>#game</span></div>
-                    </div>
-                </article>
-
-                <article class="project-card" data-category="Minecraft">
-                    <div class="project-thumb"
-                        style="background-image: url('https://files.cloudkuimages.guru/images/O76YbTN5.jpg');"></div>
-                    <div class="project-body">
-                        <h3 class="project-title">ORBIT SMP</h3>
-                        <p class="project-desc">Developed and maintained Orbit SMP, creating custom Minecraft plugins,
-                            optimizing server performance, hosting events, and fostering a friendly community for
-                            players to collaborate, build, and enjoy.</p>
-                        <div class="project-tags">
-                            <span>#development</span><span>#minecraft</span><span>#game</span><span>comunity</span>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="project-card" data-category="coding">
-                    <div class="project-thumb"
-                        style="background-image: url('https://files.cloudkuimages.guru/images/coERgMbe.jpg');"></div>
-                    <div class="project-body">
-                        <h3 class="project-title">QOUTES GENERATOR</h3>
-                        <p class="project-desc">Crafted an interactive web quotes generator that blends sleek design
-                            with engaging functionality, delivering inspiring messages in real time with a polished,
-                            user-friendly interface.</p>
-                        <div class="project-tags">
-                            <span>#coding</span><span>#javascript</span><span>web</span><span>quotes</span>
-                        </div>
-                        <a href="https://comingsoon.com" class="project-btn" target="_blank" rel="noopener">View
-                            Project</a>
-                    </div>
-                </article>
-
-                <article class="project-card" data-category="coding">
-                    <div class="project-thumb"
-                        style="background-image: url('https://files.cloudkuimages.guru/images/IJ3R0imz.jpg');"></div>
-                    <div class="project-body">
-                        <h3 class="project-title">TO-DO LIST</h3>
-                        <p class="project-desc">Designed a sleek and intuitive to-do list web app, empowering users to
-                            organize tasks, boost productivity, and stay focused with a clean, distraction-free
-                            interface.</p>
-                        <div class="project-tags"><span>#productivity</span><span>#web</span><span>#coding</span></div>
-                        <a href="https://comingsoon.com" class="project-btn" target="_blank" rel="noopener">View
-                            Project</a>
-                    </div>
-                </article>
-
-                <article class="project-card" data-category="coding">
-                    <div class="project-thumb"></div>
-                    <div class="project-body">
-                        <h3 class="project-title">project 6</h3>
-                        <p class="project-desc">Ga ada wak</p>
-                        <div class="project-tags"><span>#game</span><span>#leveldesign</span></div>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- Music -->
-        <section id="music" class="music-section">
-            <div class="section-header">
-                <h2 class="section-title">Featured Track</h2>
-                <div class="section-line"></div>
-            </div>
-
-            <div class="music-player-container">
-                <div class="music-player">
-                    <div class="player-background"></div>
-
-                    <div class="music-visualizer">
-                        <div class="visualizer-bar"></div>
-                        <div class="visualizer-bar"></div>
-                        <div class="visualizer-bar"></div>
-                        <div class="visualizer-bar"></div>
-                        <div class="visualizer-bar"></div>
-                        <div class="visualizer-bar"></div>
-                        <div class="visualizer-bar"></div>
-                        <div class="visualizer-bar"></div>
-                    </div>
-
-                    <div class="music-info">
-                        <h3 class="song-title" id="songTitle">Love for You</h3>
-                        <p class="artist" id="songArtist">loveli lori</p>
-                    </div>
-
-                    <div class="player-controls">
-                        <button class="control-btn prev-btn" id="prevBtn" aria-label="Previous">⏮</button>
-                        <button class="control-btn play-btn" id="playBtn" aria-label="Play/Pause">
-                            <span class="play-icon">▶</span>
-                            <span class="pause-icon hidden">⏸</span>
-                        </button>
-                        <button class="control-btn next-btn" id="nextBtn" aria-label="Next">⏭</button>
-                    </div>
-
-                    <div class="progress-section">
-                        <div class="progress-container" id="progressContainer">
-                            <div class="progress-bar" id="progressBar"></div>
-                            <div class="progress-handle" id="progressHandle"></div>
-                        </div>
-                        <div class="time-display">
-                            <span id="currentTime">0:00</span>
-                            <span id="duration">0:00</span>
-                        </div>
-                    </div>
-
-                    <div class="volume-section">
-                        <span class="volume-icon">🔊</span>
-                        <div class="volume-slider">
-                            <input type="range" id="volumeSlider" min="0" max="100" value="70" aria-label="Volume" />
-                        </div>
-                    </div>
-                </div>
-
-                <!-- JS akan set source dari playlist -->
-                <audio id="audioPlayer" preload="none">
-                    <!-- src set via JS -->
-                </audio>
-            </div>
-        </section>
-
-        <!-- Timeline -->
-        <section id="timeline" class="timeline-section">
-            <div class="section-header">
-                <h2 class="section-title">Journey</h2>
-                <div class="section-line"></div>
-            </div>
-
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <h3>First Script</h3>
-                        <p>Created my first automation script to speed up daily tasks.</p>
-                        <span class="timeline-meta">2019</span>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <h3>Launched Kyuracloud Hosting</h3>
-                        <p>Opened my own hosting store, Kyurastore, providing affordable and reliable server hosting
-                            services.</p>
-                        <span class="timeline-meta">2021-2022</span>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <h3>Owner of BingungSMP</h3>
-                        <p>Founded and managed BingungSMP Minecraft server community.</p>
-                        <span class="timeline-meta">2023 – 2025</span>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <h3>Customer Service at HeppyCloud</h3>
-                        <p>Providing customer support and assisting clients with hosting services.</p>
-                        <span class="timeline-meta">2024 – Present</span>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <h3>Developer at OrbitSMP</h3>
-                        <p>Developing plugins and managing server features for OrbitSMP Minecraft server.</p>
-                        <span class="timeline-meta">2025 – Present</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact -->
-        <section id="contact" class="contact-section">
-            <div class="section-header">
-                <h2 class="section-title">Connect With Me</h2>
-                <div class="section-line"></div>
-            </div>
-            <div class="contact-content">
-                <div class="contact-intro">
-                    <p>Ready to collaborate on something amazing? Let's create something extraordinary together.</p>
-                </div>
-                <div class="social-grid">
-
-                    <!-- Instagram -->
-                    <a href="https://www.instagram.com/ammarhamshar.k/" target="_blank" rel="noopener"
-                        class="social-card instagram">
-                        <div class="social-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm4.75-.25a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z" />
-                            </svg>
-                        </div>
-                        <div class="social-info">
-                            <h3>Instagram</h3>
-                            <p>Follow for updates</p>
-                        </div>
-                        <div class="social-arrow">→</div>
-                    </a>
-
-                    <!-- GitHub -->
-                    <a href="https://github.com/KyuraCodes" target="_blank" rel="noopener" class="social-card github">
-                        <div class="social-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M12 .5C5.65.5.5 5.65.5 12c0 5.1 3.29 9.4 7.86 10.94.58.1.79-.25.79-.55v-1.93c-3.2.7-3.87-1.39-3.87-1.39-.52-1.3-1.27-1.64-1.27-1.64-1.04-.7.08-.68.08-.68 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.68 1.25 3.33.96.1-.74.4-1.25.72-1.54-2.55-.29-5.23-1.27-5.23-5.66 0-1.25.44-2.27 1.16-3.07-.12-.29-.5-1.46.1-3.04 0 0 .95-.3 3.1 1.17a10.8 10.8 0 0 1 5.65 0c2.14-1.47 3.1-1.17 3.1-1.17.6 1.58.22 2.75.11 3.04.72.8 1.16 1.82 1.16 3.07 0 4.4-2.68 5.36-5.24 5.65.42.37.78 1.1.78 2.22v3.3c0 .3.21.66.8.55A10.96 10.96 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z" />
-                            </svg>
-                        </div>
-                        <div class="social-info">
-                            <h3>GitHub</h3>
-                            <p>Code repositories</p>
-                        </div>
-                        <div class="social-arrow">→</div>
-                    </a>
-
-                    <!-- Facebook -->
-                    <a href="https://www.facebook.com/profile.php?id=61572609465937" target="_blank" rel="noopener"
-                        class="social-card facebook">
-                        <div class="social-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M22.675 0h-21.35C.6 0 0 .6 0 1.326v21.348C0 23.4.6 24 
-                                 1.326 24h11.495v-9.294H9.691V11.01h3.13V8.413c0-3.1 
-                                 1.893-4.788 4.659-4.788 1.325 0 2.463.099 
-                                 2.794.143v3.24l-1.918.001c-1.505 0-1.797.716-1.797 
-                                 1.765v2.316h3.587l-.467 3.696h-3.12V24h6.116C23.4 
-                                 24 24 23.4 24 22.674V1.326C24 .6 23.4 0 22.675 0z" />
-                            </svg>
-                        </div>
-                        <div class="social-info">
-                            <h3>Facebook</h3>
-                            <p>Social updates</p>
-                        </div>
-                        <div class="social-arrow">→</div>
-                    </a>
-
-                    <!-- Discord -->
-                    <a href="https://discord.gg/RXqdYdQP" target="_blank" rel="noopener" class="social-card discord">
-                        <div class="social-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 245 240" fill="currentColor">
-                                <path d="M104.4 104.9c-5.7 0-10.2 5-10.2 11.1 0 6.1 4.6 
-                                 11.1 10.2 11.1 5.7 0 10.2-5 10.2-11.1.1-6.1-4.5-11.1-10.2-11.1zm36.2 
-                                 0c-5.7 0-10.2 5-10.2 11.1 0 6.1 4.6 11.1 
-                                 10.2 11.1 5.7 0 10.2-5 10.2-11.1 0-6.1-4.5-11.1-10.2-11.1z" />
-                                <path d="M189.5 20h-134C38.5 20 30 28.5 30 38.8v162.5c0 
-                                 10.2 8.5 18.8 19.5 18.8h114.3l-5.4-18.7 13 12.1 
-                                 12.3 11.4 21.8 19V38.8c0-10.3-8.5-18.8-19.5-18.8zm-39 
-                                 135s-3.7-4.4-6.8-8.3c13.5-3.8 18.6-12.1 18.6-12.1-4.2 
-                                 2.8-8.1 4.8-11.7 6.1-5.1 2.1-9.9 3.5-14.7 4.3-9.7 
-                                 1.8-18.6 1.3-26.3-.1-5.8-1.1-10.8-2.7-15-4.3-2.3-.9-4.8-2.1-7.3-3.8-.3-.2-.6-.4-.9-.6-.2-.1-.3-.2-.4-.3-1.8-.9-2.8-1.7-2.8-1.7s5 
-                                 8.3 18.2 12.1c-3 3.9-6.8 8.4-6.8 8.4-22.5-.7-31.1-15.4-31.1-15.4 0-32.6 
-                                 14.6-59.1 14.6-59.1 14.6-11 28.5-10.7 28.5-10.7l1 1.2c-18.3 
-                                 5.2-26.8 13.1-26.8 13.1s2.2-1.2 5.9-2.8c10.7-4.7 19.2-6 22.7-6.3.6-.1 
-                                 1.1-.2 1.7-.2 6.1-.8 13-1 20.2-.2 9.5 1.1 19.7 3.9 
-                                 30.1 9.6 0 0-8.1-7.7-25.6-12.9l1.4-1.6s13.9-.3 
-                                 28.5 10.7c0 0 14.6 26.5 14.6 59.1 0 .1-8.7 14.7-31.2 15.4z" />
-                            </svg>
-                        </div>
-                        <div class="social-info">
-                            <h3>Discord</h3>
-                            <p>Community chat</p>
-                        </div>
-                        <div class="social-arrow">→</div>
-                    </a>
-
-                    <!-- TikTok -->
-                    <a href="https://www.tiktok.com/@kyuraalwaysnt" target="_blank" rel="noopener"
-                        class="social-card tiktok">
-                        <div class="social-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">
-                                <path
-                                    d="M168.5 25.4C177.7 40.7 194.4 51.2 214 51.9v41.2c-16.2-1.6-31.1-6.6-44-14.4v66.7c0 27.4-22.3 49.7-49.7 49.7S70.7 173 70.7 145.6c0-27.3 22.3-49.6 49.7-49.6 5.5 0 10.8.9 15.7 2.6v42.2c-2.9-.9-6.1-1.5-9.3-1.5-11.8 0-21.4 9.6-21.4 21.4s9.6 21.4 21.4 21.4c11.8 0 21.4-9.6 21.4-21.4V25.4h19.9z" />
-                            </svg>
-                        </div>
-                        <div class="social-info">
-                            <h3>Tiktok</h3>
-                            <p>Video content</p>
-                        </div>
-                        <div class="social-arrow">→</div>
-                    </a>
-
-                    <!-- MyAnimeList -->
-                    <a href="https://myanimelist.net/profile/KyuraaChann" target="_blank" rel="noopener"
-                        class="social-card mal">
-                        <div class="social-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                                <path d="M128 64h64l64 128 64-128h64L288 320v128h-64V320L128 64z" />
-                            </svg>
-                        </div>
-                        <div class="social-info">
-                            <h3>Myanimelist</h3>
-                            <p>Anime tracker</p>
-                        </div>
-                        <div class="social-arrow">→</div>
-                    </a>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-brand">KỲUR</div>
-                <div class="footer-text">
-                    <p>&copy; 2025 KỲUR. Crafted with passion and creativity.</p>
-                    <p>All rights reserved. Made with ❤️</p>
-                </div>
-            </div>
-        </footer>
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">DEV<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#music" class="nav-link">Music</a></li>
+        <li><a href="#journey" class="nav-link">Journey</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">
+          <span class="theme-icon">◐</span>
+        </button>
+        <button id="menuToggle" class="menu-btn" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="#home" class="mobile-link">Home</a></li>
+        <li><a href="#about" class="mobile-link">About</a></li>
+        <li><a href="#skills" class="mobile-link">Skills</a></li>
+        <li><a href="#projects" class="mobile-link">Projects</a></li>
+        <li><a href="#music" class="mobile-link">Music</a></li>
+        <li><a href="#journey" class="mobile-link">Journey</a></li>
+        <li><a href="#contact" class="mobile-link">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <script src="script.js"></script>
+  <canvas id="globalBgCanvas"></canvas>
+
+  <main>
+
+    <!-- ═══ HOME ═══ -->
+    <section id="home" class="section section-home">
+      <div class="home-bg-grid"></div>
+      <div class="home-content">
+
+        <!-- Circular Profile Photo -->
+        <div class="home-profile reveal">
+          <div class="profile-ring">
+            <img
+              src="assets/images/profile.jpg"
+              alt="Profile"
+              class="profile-img"
+              onerror="this.parentElement.classList.add('no-img')"
+            />
+            <div class="profile-placeholder">KY</div>
+          </div>
+        </div>
+
+        <!-- Right: Name + Typing + Stats -->
+        <div class="home-text">
+          <h1 class="home-name reveal">
+            <span class="line">KYURA</span>
+          </h1>
+          <p class="home-typing reveal">
+            <span id="typingText" class="typing-word"></span><span class="typing-cursor">|</span>
+          </p>
+          <div class="home-stats reveal">
+            <div class="stat-item">
+              <span class="stat-number" data-target="12">0</span>
+              <span class="stat-label">PROJECTS</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-target="24">0</span>
+              <span class="stat-label">TRACKS</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" data-target="9">0</span>
+              <span class="stat-label">HOURS</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Scroll Indicator centered at bottom -->
+      <div class="scroll-indicator">
+        <div class="scroll-arrow">↓</div>
+        <span>Scroll to explore</span>
+      </div>
+    </section>
+
+    <!-- ═══ ABOUT ═══ -->
+    <section id="about" class="section section-about">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-num">01</span>
+          <h2 class="section-title"><span class="title-text">ABOUT</span><span class="title-line"></span></h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-bio reveal">
+            <p class="bio-lead">I'm a developer with a passion for building things that matter — from scalable web applications to immersive Minecraft server experiences.</p>
+            <p class="bio-body">My journey started with curiosity and a text editor in 2019. Since then I've evolved into a multi-disciplinary creator who codes, composes, and automates. I believe great software is as much about the user experience as the underlying architecture.</p>
+            <p class="bio-body">When I'm not coding, I'm a Minecraft developer, exploring AI tools or diving deeper into automation systems that make life more efficient</p>
+          </div>
+          <div class="about-cards">
+            <div class="about-card reveal">
+              <div class="card-icon">⬡</div>
+              <h3>Technology</h3>
+              <p>Passionate about modern web tech, AI, and automation frameworks that push the boundaries of what's possible.</p>
+            </div>
+            <div class="about-card reveal">
+              <div class="card-icon">⬡</div>
+              <h3>Development Focus</h3>
+              <p>Build Powerful website, Minecraft plugin development, Discord bots, and AI-powered automation pipelines.</p>
+            </div>
+            <div class="about-card reveal">
+              <div class="card-icon">⬡</div>
+              <h3>Creative Side</h3>
+              <p>digital design, and building communities — creativity fuels better code.</p>
+            </div>
+            <div class="about-card reveal">
+              <div class="card-icon">⬡</div>
+              <h3>Always Learning</h3>
+              <p>Currently exploring large language model integration, edge computing, and advanced Java architectures.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SKILLS ═══ -->
+    <section id="skills" class="section section-skills">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-num">02</span>
+          <h2 class="section-title"><span class="title-text">SKILLS</span><span class="title-line"></span></h2>
+        </div>
+        <div class="skills-layout">
+
+          <!-- Skill Cards Grid -->
+          <div class="skills-grid">
+            <div class="skill-card reveal" data-level="48">
+              <div class="skill-ring-wrap">
+                <svg class="skill-ring-svg" viewBox="0 0 80 80">
+                  <circle class="ring-bg" cx="40" cy="40" r="32"/>
+                  <circle class="ring-fill" cx="40" cy="40" r="32" data-pct="48"/>
+                </svg>
+                <span class="skill-ring-pct">48%</span>
+              </div>
+              <div class="skill-card-info">
+                <span class="skill-card-name">Java</span>
+                <span class="skill-card-tag">Backend</span>
+              </div>
+            </div>
+            <div class="skill-card reveal" data-level="95">
+              <div class="skill-ring-wrap">
+                <svg class="skill-ring-svg" viewBox="0 0 80 80">
+                  <circle class="ring-bg" cx="40" cy="40" r="32"/>
+                  <circle class="ring-fill" cx="40" cy="40" r="32" data-pct="95"/>
+                </svg>
+                <span class="skill-ring-pct">95%</span>
+              </div>
+              <div class="skill-card-info">
+                <span class="skill-card-name">HTML</span>
+                <span class="skill-card-tag">Markup</span>
+              </div>
+            </div>
+            <div class="skill-card reveal" data-level="92">
+              <div class="skill-ring-wrap">
+                <svg class="skill-ring-svg" viewBox="0 0 80 80">
+                  <circle class="ring-bg" cx="40" cy="40" r="32"/>
+                  <circle class="ring-fill" cx="40" cy="40" r="32" data-pct="92"/>
+                </svg>
+                <span class="skill-ring-pct">92%</span>
+              </div>
+              <div class="skill-card-info">
+                <span class="skill-card-name">CSS</span>
+                <span class="skill-card-tag">Styling</span>
+              </div>
+            </div>
+            <div class="skill-card reveal" data-level="85">
+              <div class="skill-ring-wrap">
+                <svg class="skill-ring-svg" viewBox="0 0 80 80">
+                  <circle class="ring-bg" cx="40" cy="40" r="32"/>
+                  <circle class="ring-fill" cx="40" cy="40" r="32" data-pct="85"/>
+                </svg>
+                <span class="skill-ring-pct">85%</span>
+              </div>
+              <div class="skill-card-info">
+                <span class="skill-card-name">JavaScript</span>
+                <span class="skill-card-tag">Frontend</span>
+              </div>
+            </div>
+            <div class="skill-card reveal" data-level="78">
+              <div class="skill-ring-wrap">
+                <svg class="skill-ring-svg" viewBox="0 0 80 80">
+                  <circle class="ring-bg" cx="40" cy="40" r="32"/>
+                  <circle class="ring-fill" cx="40" cy="40" r="32" data-pct="78"/>
+                </svg>
+                <span class="skill-ring-pct">78%</span>
+              </div>
+              <div class="skill-card-info">
+                <span class="skill-card-name">Python</span>
+                <span class="skill-card-tag">Scripting</span>
+              </div>
+            </div>
+            <div class="skill-card reveal" data-level="90">
+              <div class="skill-ring-wrap">
+                <svg class="skill-ring-svg" viewBox="0 0 80 80">
+                  <circle class="ring-bg" cx="40" cy="40" r="32"/>
+                  <circle class="ring-fill" cx="40" cy="40" r="32" data-pct="90"/>
+                </svg>
+                <span class="skill-ring-pct">90%</span>
+              </div>
+              <div class="skill-card-info">
+                <span class="skill-card-name">Minecraft Dev</span>
+                <span class="skill-card-tag">Plugins</span>
+              </div>
+            </div>
+            <div class="skill-card reveal" data-level="96">
+              <div class="skill-ring-wrap">
+                <svg class="skill-ring-svg" viewBox="0 0 80 80">
+                  <circle class="ring-bg" cx="40" cy="40" r="32"/>
+                  <circle class="ring-fill" cx="40" cy="40" r="32" data-pct="96"/>
+                </svg>
+                <span class="skill-ring-pct">96%</span>
+              </div>
+              <div class="skill-card-info">
+                <span class="skill-card-name">Customer Service</span>
+                <span class="skill-card-tag">Soft Skill</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: featured skill bars for top 3 + note -->
+          <div class="skills-side">
+            <div class="skills-featured reveal">
+              <div class="featured-label">TOP PROFICIENCIES</div>
+              <div class="feat-bar-list">
+                <div class="feat-bar-item">
+                  <div class="feat-bar-header">
+                    <span class="feat-bar-name">Customer Service</span>
+                    <span class="feat-bar-num">96</span>
+                  </div>
+                  <div class="feat-bar-track"><div class="feat-bar-fill" data-width="96"></div></div>
+                </div>
+                <div class="feat-bar-item">
+                  <div class="feat-bar-header">
+                    <span class="feat-bar-name">HTML</span>
+                    <span class="feat-bar-num">95</span>
+                  </div>
+                  <div class="feat-bar-track"><div class="feat-bar-fill" data-width="95"></div></div>
+                </div>
+                <div class="feat-bar-item">
+                  <div class="feat-bar-header">
+                    <span class="feat-bar-name">CSS</span>
+                    <span class="feat-bar-num">92</span>
+                  </div>
+                  <div class="feat-bar-track"><div class="feat-bar-fill" data-width="92"></div></div>
+                </div>
+                <div class="feat-bar-item">
+                  <div class="feat-bar-header">
+                    <span class="feat-bar-name">Minecraft Dev</span>
+                    <span class="feat-bar-num">90</span>
+                  </div>
+                  <div class="feat-bar-track"><div class="feat-bar-fill" data-width="90"></div></div>
+                </div>
+                <div class="feat-bar-item">
+                  <div class="feat-bar-header">
+                    <span class="feat-bar-name">Java</span>
+                    <span class="feat-bar-num">48</span>
+                  </div>
+                  <div class="feat-bar-track"><div class="feat-bar-fill" data-width="48"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="skills-note reveal">
+              <div class="note-inner">
+                <span class="note-label">APPROACH</span>
+                <p>Skills are tools, not trophies. I focus on mastering fundamentals and adapting quickly — the best developers are perpetual students.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ PROJECTS ═══ -->
+    <section id="projects" class="section section-projects">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-num">03</span>
+          <h2 class="section-title"><span class="title-text">PROJECTS</span><span class="title-line"></span></h2>
+        </div>
+        <div class="projects-grid">
+          <div class="project-card reveal">
+            <div class="project-tag">WEBSITE</div>
+            <h3 class="project-title">TaskFlow</h3>
+            <p class="project-desc">A modern task management web application designed to help users organize and track their daily tasks efficiently. Features include task categories, priority levels, progress tracking, and an intuitive user interface.</p>
+            <div class="project-tech">
+              <span>Html</span><span>CSS</span><span>LocalStorage</span><span>Javascript</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="proj-link">GitHub ↗</a>
+              <a href="https://taskflow73.netlify.app/" target="_blank" class="proj-link">Demo ↗</a>
+            </div>
+          </div>
+          <div class="project-card reveal">
+            <div class="project-tag">MINECRAFT</div>
+            <h3 class="project-title">Empire Teams</h3>
+            <p class="project-desc">Developed a custom Minecraft server plugin for the Empire Team community, adding unique gameplay features, server management tools, and optimized performance for multiplayer servers.</p>
+            <div class="project-tech">
+              <span>Java</span><span>Bukkit API</span><span>MySQL</span><span>PaperMC</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="proj-link">GitHub ↗</a>
+            </div>
+          </div>
+          <div class="project-card reveal">
+            <div class="project-tag">AUTOMATION</div>
+            <h3 class="project-title">AutoBot Framework</h3>
+            <p class="project-desc">Multi-functional WhatsApp bot designed for automation, messaging utilities, and AI-powered responses. Built with a modular command system and integrated with various APIs for scalable bot features.</p>
+            <div class="project-tech">
+              <span>NodeJS</span><span>Baileys</span><span>OpenAI</span><span>MongoDB</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="proj-link">GitHub ↗</a>
+              <a href="#" class="proj-link">Demo ↗</a>
+            </div>
+          </div>
+          <div class="project-card reveal">
+            <div class="project-tag">WEB</div>
+            <h3 class="project-title">PortfolioGen CLI</h3>
+            <p class="project-desc">Command-line tool that generates customizable developer portfolio sites from a YAML config file, with 12 themes and one-click deployment.</p>
+            <div class="project-tech">
+              <span>JavaScript</span><span>Node.js</span><span>Handlebars</span><span>YAML</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="proj-link">GitHub ↗</a>
+              <a href="#" class="proj-link">NPM ↗</a>
+            </div>
+          </div>
+          <div class="project-card reveal">
+            <div class="project-tag">AI / ML</div>
+            <h3 class="project-title">TextFlow AI</h3>
+            <p class="project-desc">LLM-powered text transformation pipeline with custom fine-tuning, prompt chaining, and a browser extension for instant writing assistance.</p>
+            <div class="project-tech">
+              <span>Python</span><span>FastAPI</span><span>LangChain</span><span>React</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="proj-link">GitHub ↗</a>
+            </div>
+          </div>
+          <div class="project-card reveal">
+            <div class="project-tag">TOOL</div>
+            <h3 class="project-title">SchemaSync</h3>
+            <p class="project-desc">Database schema migration and diff tool supporting MySQL, PostgreSQL, and SQLite with visual change tracking and rollback capabilities.</p>
+            <div class="project-tech">
+              <span>Java</span><span>JDBC</span><span>Swing</span><span>JDBC</span>
+            </div>
+            <div class="project-links">
+              <a href="#" class="proj-link">GitHub ↗</a>
+              <a href="#" class="proj-link">Demo ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ MUSIC PLAYER ═══ -->
+    <section id="music" class="section section-music">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-num">04</span>
+          <h2 class="section-title"><span class="title-text">MUSIC</span><span class="title-line"></span></h2>
+        </div>
+        <div class="player-wrapper reveal">
+          <div class="player-main">
+            <div class="player-visual">
+              <div class="vinyl-disk" id="vinylDisk">
+                <div class="vinyl-label">
+                  <span id="vinylInitial">A</span>
+                </div>
+              </div>
+              <div class="player-info">
+                <div class="track-badge" id="trackBadge">TRACK 01</div>
+                <h3 class="track-title" id="trackTitle">Midnight Circuit</h3>
+                <p class="track-artist" id="trackArtist">Alex Morgan</p>
+              </div>
+            </div>
+            <div class="player-controls-area">
+              <div class="progress-area">
+                <span class="time-current" id="timeCurrent">0:00</span>
+                <div class="progress-bar" id="progressBar">
+                  <div class="progress-fill" id="progressFill"></div>
+                  <div class="progress-thumb"></div>
+                </div>
+                <span class="time-total" id="timeTotal">0:00</span>
+              </div>
+              <div class="player-buttons">
+                <button class="ctrl-btn" id="prevBtn" aria-label="Previous">⏮</button>
+                <button class="ctrl-btn play-btn" id="playBtn" aria-label="Play">▶</button>
+                <button class="ctrl-btn" id="nextBtn" aria-label="Next">⏭</button>
+              </div>
+              <div class="volume-area">
+                <span class="vol-icon">🔈</span>
+                <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.05" value="0.7" />
+                <span class="vol-icon">🔊</span>
+              </div>
+            </div>
+          </div>
+          <div class="playlist-panel">
+            <div class="playlist-header">PLAYLIST</div>
+            <ul class="playlist" id="playlist"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ JOURNEY ═══ -->
+    <section id="journey" class="section section-journey">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-num">05</span>
+          <h2 class="section-title"><span class="title-text">JOURNEY</span><span class="title-line"></span></h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline-track"></div>
+          <div class="timeline-item reveal" data-side="left">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <span class="tl-year">2019</span>
+              <h3 class="tl-title">The Beginning</h3>
+              <p class="tl-desc">Started learning programming — Created my first automation script to speed up daily tasks.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal" data-side="right">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <span class="tl-year">2022</span>
+              <h3 class="tl-title">Web Development</h3>
+              <p class="tl-desc">Dove into HTML And CSS. Built first websites, explored responsive design, fell in love with the frontend.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal" data-side="left">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <span class="tl-year">2023</span>
+              <h3 class="tl-title">Minecraft Server Dev</h3>
+              <p class="tl-desc">Become a BingungSMP server developer. This is the first time I know about the Pterodactyl Panel, VPS.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal" data-side="right">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <span class="tl-year">2024</span>
+              <h3 class="tl-title">Pterodactyl Panel</h3>
+              <p class="tl-desc">Worked with Pterodactyl Panel to manage and deploy servers efficiently. Learned server automation, configuration management, and optimizing performance for online services.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal" data-side="left">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <span class="tl-year">2025</span>
+              <h3 class="tl-title">Automation & Bots</h3>
+              <p class="tl-desc">Built Discord bots, Whatsapp bot, and workflow tools. Discovered the power of making code work while you sleep.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal" data-side="right">
+            <div class="tl-dot"></div>
+            <div class="tl-card">
+              <span class="tl-year">2026</span>
+              <h3 class="tl-title">Started Learning New Programming Languages</h3>
+              <p class="tl-desc">Started learning Python and Java to strengthen programming fundamentals and explore different areas of software development.</p>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CONTACT ═══ -->
+    <section id="contact" class="section section-contact">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-num">06</span>
+          <h2 class="section-title"><span class="title-text">CONTACT</span><span class="title-line"></span></h2>
+        </div>
+        <div class="contact-wrapper">
+          <div class="contact-intro reveal">
+            <p class="contact-lead">Ready to build<span>something great?</span></p>
+            <p class="contact-sub">Whether it's a project, collaboration, or just a conversation — I'm always open to interesting opportunities.</p>
+          </div>
+          <div class="social-grid reveal">
+            <a href="https://www.instagram.com/ammarhamshar.k/" target="_blank" class="social-card" aria-label="Instagram">
+              <div class="social-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <circle cx="12" cy="12" r="4"/>
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+              </div>
+              <span class="social-name">Instagram</span>
+              <span class="social-handle">@ammarhamshar.k</span>
+            </a>
+            <a href="https://discord.gg/MR76XHYgFA" target="_blank" class="social-card" aria-label="Discord">
+              <div class="social-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.001.022.015.043.033.055a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+                </svg>
+              </div>
+              <span class="social-name">Discord</span>
+              <span class="social-handle">kyuraaa_</span>
+            </a>
+            <a href="https://github.com/KyuraCodes" target="_blank" class="social-card" aria-label="GitHub">
+              <div class="social-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                </svg>
+              </div>
+              <span class="social-name">GitHub</span>
+              <span class="social-handle">github.com/KyuraCodes</span>
+            </a>
+            <a href="https://www.tiktok.com/@kyuraalwaysnt" class="social-card" target="_blank" aria-label="TikTok">
+              <div class="social-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z"/>
+                </svg>
+              </div>
+              <span class="social-name">TikTok</span>
+              <span class="social-handle">@kyuraalwaysnt</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">DEV<span>.</span></span>
+      <span class="footer-copy">© 2026 Kyura. Built with intention.</span>
+      <a href="#home" class="back-top">↑ TOP</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
-
 </html>
