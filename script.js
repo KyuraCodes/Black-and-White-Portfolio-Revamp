@@ -1,3 +1,8 @@
+/* ═══════════════════════════════════════════════════
+   PORTFOLIO — SCRIPT.JS
+   Modular · Clean · Well-Commented
+═══════════════════════════════════════════════════ */
+
 'use strict';
 
 /* ──────────────────────────────────────────────────
@@ -119,30 +124,36 @@ const Navigation = (() => {
   const menuToggle = document.getElementById('menuToggle');
   const mobileMenu = document.getElementById('mobileMenu');
   const mobileLinks = document.querySelectorAll('.mobile-link');
-
   const sections = document.querySelectorAll('section[id]');
 
   function init() {
-    // Scroll listener for active state + scrolled class
     window.addEventListener('scroll', onScroll, { passive: true });
 
     // Mobile menu toggle
-    menuToggle.addEventListener('click', () => {
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       const isOpen = mobileMenu.classList.toggle('open');
       menuToggle.classList.toggle('open', isOpen);
     });
 
-    // Smooth scroll for nav links
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (mobileMenu.classList.contains('open') &&
+          !mobileMenu.contains(e.target) &&
+          !menuToggle.contains(e.target)) {
+        mobileMenu.classList.remove('open');
+        menuToggle.classList.remove('open');
+      }
+    });
+
+    // Smooth scroll + close menu on link click
     [...navLinks, ...mobileLinks].forEach(link => {
       link.addEventListener('click', (e) => {
         const href = link.getAttribute('href');
         if (href.startsWith('#')) {
           e.preventDefault();
           const target = document.querySelector(href);
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-          // Close mobile menu if open
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
           mobileMenu.classList.remove('open');
           menuToggle.classList.remove('open');
         }
@@ -152,20 +163,19 @@ const Navigation = (() => {
 
   function onScroll() {
     const scrollY = window.scrollY;
-
-    // Toggle scrolled class for backdrop blur
     navbar.classList.toggle('scrolled', scrollY > 40);
 
-    // Highlight active section
     let currentSection = '';
     sections.forEach(section => {
-      const sectionTop = section.offsetTop - 100;
-      if (scrollY >= sectionTop) {
+      if (scrollY >= section.offsetTop - 120) {
         currentSection = section.getAttribute('id');
       }
     });
 
     navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${currentSection}`);
+    });
+    mobileLinks.forEach(link => {
       link.classList.toggle('active', link.getAttribute('href') === `#${currentSection}`);
     });
   }
@@ -265,7 +275,6 @@ const MusicPlayer = (() => {
     { title: 'HEADLIGHT',      artist: 'Alan Walker', src: 'assets/music/song6.mp3', duration: '2:38' },
     { title: 'Swim',        artist: 'Chase Atlantic', src: 'assets/music/song7.mp3', duration: '3:48' },
   ];
-
 
   // ── State ──
   let currentIndex = 0;

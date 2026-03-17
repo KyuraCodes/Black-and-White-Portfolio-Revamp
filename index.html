@@ -39,26 +39,46 @@
 
   <!-- Navigation -->
   <nav id="navbar">
-    <div class="nav-inner">
-      <a href="#home" class="nav-logo">DEV<span>.</span></a>
+    <div class="nav-pill">
+      <!-- Logo -->
+      <a href="#home" class="nav-logo">
+        <span class="nav-logo-r">K</span><span class="nav-logo-f">Y</span>
+      </a>
+
+      <!-- Divider -->
+      <div class="nav-divider"></div>
+
+      <!-- Links -->
       <ul class="nav-links">
         <li><a href="#home" class="nav-link active">Home</a></li>
         <li><a href="#about" class="nav-link">About</a></li>
         <li><a href="#skills" class="nav-link">Skills</a></li>
         <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#music" class="nav-link">Music</a></li>
-        <li><a href="#journey" class="nav-link">Journey</a></li>
+        <li><a href="#work" class="nav-link">Work</a></li>
+        <li><a href="#journey" class="nav-link">Timeline</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
+
+      <!-- Divider -->
+      <div class="nav-divider"></div>
+
+      <!-- Actions -->
       <div class="nav-actions">
         <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">
-          <span class="theme-icon">◐</span>
+          <svg viewBox="0 0 24 24" fill="currentColor" class="theme-icon-svg theme-moon">
+            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
+          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="theme-icon-svg theme-sun">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
         </button>
         <button id="menuToggle" class="menu-btn" aria-label="Toggle menu">
           <span></span><span></span><span></span>
         </button>
       </div>
     </div>
+
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
       <ul>
@@ -67,7 +87,8 @@
         <li><a href="#skills" class="mobile-link">Skills</a></li>
         <li><a href="#projects" class="mobile-link">Projects</a></li>
         <li><a href="#music" class="mobile-link">Music</a></li>
-        <li><a href="#journey" class="mobile-link">Journey</a></li>
+        <li><a href="#journey" class="mobile-link">Timeline</a></li>
+        <li><a href="#work" class="mobile-link">Work</a></li>
         <li><a href="#contact" class="mobile-link">Contact</a></li>
       </ul>
     </div>
@@ -457,6 +478,87 @@
       </div>
     </section>
 
+
+    <!-- ═══ WORK ═══ -->
+    <section id="work" class="section section-work">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-num">06</span>
+          <h2 class="section-title"><span class="title-text">WORK</span><span class="title-line"></span></h2>
+        </div>
+        <div class="work-intro reveal">
+          <span class="work-eyebrow">CURRENT ROLE</span>
+          <h3 class="work-headline">Now Working <span>At</span></h3>
+        </div>
+        <div class="work-card-wrap reveal">
+          <!-- Main card -->
+          <div class="work-main-card">
+            <div class="work-card-glow"></div>
+            <div class="work-card-inner">
+
+              <!-- Left: info -->
+              <div class="work-info">
+                <div class="work-company-row">
+                  <div class="work-logo-box">
+                    <img src="assets/images/axoriahost-logo.png" alt="AxoriaHost" class="work-logo-img" />
+                  </div>
+                  <div>
+                    <div class="work-company-name">AxoriaHost <span class="work-verified">✔</span></div>
+                    <span class="work-role-badge">Customer Service</span>
+                  </div>
+                </div>
+                <div class="work-meta-row">
+                  <span class="work-status-badge"><span class="work-status-dot"></span>Active</span>
+                  <span class="work-date"><span class="work-cal-icon">📅</span> 2026 — Present</span>
+                </div>
+                <p class="work-desc">
+                  Currently working as a <strong>Customer Service</strong> representative at
+                  <strong>AxoriaHost</strong>, handling user support, resolving
+                  <strong>issues</strong>, and ensuring a <em class="work-accent">smooth</em> and <em class="work-accent">reliable</em>
+                  experience for clients.
+                </p>
+                <div class="work-actions">
+                  <a href="#" class="work-btn work-btn-primary">
+                    <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/></svg>
+                    Contact Company
+                  </a>
+                  <a href="#" class="work-btn work-btn-outline">View Details <span>→</span></a>
+                </div>
+              </div>
+
+              <!-- Right: summary card -->
+              <div class="work-summary-card">
+                <div class="work-summary-logo">
+                  <img src="assets/images/axoriahost-logo.png" alt="AxoriaHost" class="work-summary-logo-img" />
+                  <div>
+                    <div class="work-summary-name">Axoria Host</div>
+                    <div class="work-summary-tagline">Reliable Hosting</div>
+                  </div>
+                </div>
+                <div class="work-summary-rows">
+                  <div class="work-summary-row">
+                    <span class="ws-icon">👤</span>
+                    <span class="ws-label">Role</span>
+                    <span class="ws-value">Customer Service</span>
+                  </div>
+                  <div class="work-summary-row">
+                    <span class="ws-icon">📍</span>
+                    <span class="ws-label">Location</span>
+                    <span class="ws-value">Indonesia</span>
+                  </div>
+                  <div class="work-summary-row">
+                    <span class="ws-icon">📥</span>
+                    <span class="ws-label">Since</span>
+                    <span class="ws-value">March 2026</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- ═══ JOURNEY ═══ -->
     <section id="journey" class="section section-journey">
       <div class="container">
