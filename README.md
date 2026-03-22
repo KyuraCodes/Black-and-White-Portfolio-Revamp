@@ -33,7 +33,7 @@ A modern fork of the original **Black-and-White-Portfolio**, redesigned with a s
 | 03 | Projects | 6-card project grid |
 | 04 | Music | Full custom audio player with playlist |
 | 05 | Journey | Alternating timeline 2019 → present |
-| 06 | Work | Current role card (AxoriaHost) |
+| 06 | Work | Current role card (HeppyCloud) |
 | 07 | Contact | Social links — Instagram, Discord, GitHub, TikTok |
 
 ---
@@ -68,7 +68,7 @@ Black-and-White-Portfolio-Revamp/
 ├── index.html            # Main HTML — all sections
 ├── style.css             # All styles, animations, responsive rules
 ├── script.js             # All JS modules (loader, cursor, player, canvas, etc.)
-├── axoriahost-logo.png   # Work section company logo
+├── Logo-HeppyCloud.png   # Work section company logo
 └── assets/
     ├── images/
     │   └── profile.jpg   # Profile photo (replace with your own)
